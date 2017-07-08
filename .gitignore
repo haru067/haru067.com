@@ -1,2 +1,6 @@
 .firebaserc
 .DS_Store
+.sass-cache
+
+*.log
+*.map
