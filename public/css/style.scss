@@ -5,7 +5,6 @@ Helvetica,
 Arial,
 "Lucida Grande",
 sans-serif;
-
 body {
     font-family: $font-stack;
     margin: 0 auto;
@@ -92,4 +91,10 @@ code {
     display: block;
     margin: 3em 0;
     text-align: center;
+}
+
+.media-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
