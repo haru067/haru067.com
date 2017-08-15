@@ -1,4 +1,5 @@
 const functions = require('firebase-functions');
+const moment = require('moment');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 const db = admin.database();
@@ -32,7 +33,8 @@ function getSchedules() {
 
 function getSchedulePromise(game_type) {
     const ref = db.ref("/splatoon/schedules/" + game_type);
-    return ref.orderByChild('start_time').once('value').then(snapshot => {
+    const startAt = moment().subtract(2, 'hours').unix();
+    return ref.orderByChild('start_time').startAt(startAt).limitToFirst(6).once('value').then(snapshot => {
         let schedules = [];
         snapshot.forEach(item => { schedules.push(item.val()) });
         return schedules;
