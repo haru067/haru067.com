@@ -10,6 +10,7 @@ const template = require('./template');
 exports.splatoonSchedules = functions.https.onRequest((request, response) => {
     fetchSchedule().then((values) => {
         const html = template.renderMain(values);
+        response.set('Cache-Control', 'public, max-age=300, s-maxage=600');
         response.send(html);
     });
 });
