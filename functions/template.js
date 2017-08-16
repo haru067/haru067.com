@@ -1,4 +1,5 @@
-const moment = require('moment');
+const moment = require('moment-timezone');
+moment.tz.setDefault("Asia/Tokyo");
 
 exports.renderMain = (schedules) => { 
     const rounds = convertToRounds(schedules);

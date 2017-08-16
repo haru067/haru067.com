@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
-const moment = require('moment');
+const moment = require('moment-timezone');
+moment.tz.setDefault("Asia/Tokyo");
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 const db = admin.database();
