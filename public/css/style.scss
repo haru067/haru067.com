@@ -1,0 +1,101 @@
+$font-stack: "HelveticaNeue-Light",
+"Helvetica Neue Light",
+"Helvetica Neue",
+Helvetica,
+Arial,
+"Lucida Grande",
+sans-serif;
+body {
+    font-family: $font-stack;
+    margin: 0 auto;
+    padding: 1em;
+    font-size: 1.0em;
+    color: #555;
+}
+
+@media screen and (min-width: 40em) {
+    body {
+        width: 40em;
+    }
+}
+
+h1,
+h2,
+h3 {
+    font-family: "Montserrat", $font-stack;
+    color: #2d2d2d;
+}
+
+h1 {
+    margin: 1em 0;
+    padding: 0 0 0.25em 0;
+    border-bottom: 1px solid #e5e5e5;
+    text-align: center;
+    font-size: 2.5em;
+    line-height: 1.1em;
+}
+
+h2 {
+    margin: 1.5em 0 0.45em 0;
+    padding: 0 0 0.25em 0;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 1.5em;
+}
+
+h3 {
+    margin: 1em 0 0.2em 0;
+    padding: 0;
+    font-size: 1.0em;
+}
+
+p {
+    margin: 0 0 0.5em 0;
+    line-height: 1.8em;
+}
+
+ol {}
+
+ol li {
+    margin: 0 0 0.5em 0;
+    font-size: 0.9em;
+    line-height: 1.8em;
+}
+
+ul li {
+    margin: 0 0 0.2em 0;
+    font-size: 0.9em;
+    line-height: 1.8em;
+}
+
+a {
+    color: #1080d0;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0b6090;
+    text-decoration: underline;
+}
+
+code {
+    display: inline-block;
+    padding: 0.1em;
+    background-color: #F8F8F8;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    font-family: Consolas, "Liberation Mono", Courier, monospace;
+    font-size: 0.9em;
+    line-height: 1;
+}
+
+.logo {
+    display: block;
+    margin: 3em 0;
+    text-align: center;
+}
+
+.media-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

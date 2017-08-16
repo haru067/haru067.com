@@ -1,2 +1,11 @@
 .firebaserc
 .DS_Store
+.sass-cache
+package-lock.json
+private.js
+
+*.log
+*.map
+
+node_modules/
+ignored/
