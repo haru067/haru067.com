@@ -2,6 +2,7 @@
 .DS_Store
 .sass-cache
 package-lock.json
+database.rules.json
 private.js
 
 *.log

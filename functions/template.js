@@ -1,4 +1,5 @@
-const moment = require('moment');
+const moment = require('moment-timezone');
+moment.tz.setDefault("Asia/Tokyo");
 
 exports.renderMain = (schedules) => { 
     const rounds = convertToRounds(schedules);
@@ -87,10 +88,18 @@ function getRoundHtml(round) {
 function getScheduleHtml(schedule) {
     const stageA = getStageHtml(schedule.stage_a);
     const stageB = getStageHtml(schedule.stage_b);
+    const title = schedule.game_mode.key == 'regular' ? 
+    `
+                <h1>${schedule.rule.name}</h1>
+    `:
+    `
+                <h1>${schedule.game_mode.name}</h1>
+                <h2>${schedule.rule.name}</h2>
+    `;
     return `
         <div class="schedule">
             <div class="title">
-                <h1>${schedule.rule.name}</h1>
+                ${title}
             </div>
             <div class="stage-container">
                 ${stageA}
