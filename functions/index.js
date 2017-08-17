@@ -8,13 +8,6 @@ const privateFunctions = require('./private');
 const md5 = require('./util').md5;
 const template = require('./template');
 
-exports.test = functions.https.onRequest((request, response) => {
-    return fetchSchedule().then((values) => {
-        const html = template.renderMain(values);
-        response.send(html);
-    });
-});
-
 exports.splatoonSchedules = functions.https.onRequest((request, response) => {
     fetchSchedule().then((values) => {
         const html = template.renderMain(values);
