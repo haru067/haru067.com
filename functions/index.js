@@ -74,7 +74,7 @@ function updateScheduleDb() {
 function confirmUpdate() {
     const ref = db.ref("/splatoon/schedules/metadata");
     return ref.once('value').then((snapshot) => {
-        const diff = moment().unix() - snapshot.val().lastUpdated;
+        const diff = moment().unix() - snapshot.val().last_updated;
         if (diff > 2 * 60 * 60 /* 2hours */) {
             return true;
         }
