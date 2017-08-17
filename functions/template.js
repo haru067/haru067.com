@@ -1,3 +1,7 @@
+const riot = require('riot');
+const stageTag = require('./templates/stage.tag');
+const scheduleTag = require('./templates/schedule.tag');
+const roundTag = require('./templates/round.tag');
 const moment = require('moment-timezone');
 moment.tz.setDefault("Asia/Tokyo");
 
@@ -69,51 +73,5 @@ function convertToRounds(schedules) {
 }
 
 function getRoundHtml(round) { 
-    const regular = getScheduleHtml(round.regular);
-    const gachi = getScheduleHtml(round.gachi);
-    const league = getScheduleHtml(round.league);
-    return `
-    <div class="round">
-        <h1>${round.date}</h1>
-        <div class="schedule-container">
-            ${regular}
-            ${gachi}
-            ${league}
-        </div>
-        <hr>
-    </div>
-    `
-}
-
-function getScheduleHtml(schedule) {
-    const stageA = getStageHtml(schedule.stage_a);
-    const stageB = getStageHtml(schedule.stage_b);
-    const title = schedule.game_mode.key == 'regular' ? 
-    `
-                <h1>${schedule.rule.name}</h1>
-    `:
-    `
-                <h1>${schedule.game_mode.name}</h1>
-                <h2>${schedule.rule.name}</h2>
-    `;
-    return `
-        <div class="schedule">
-            <div class="title">
-                ${title}
-            </div>
-            <div class="stage-container">
-                ${stageA}
-                ${stageB}
-            </div>
-        </div>
-    `;
-}
-
-function getStageHtml(stage) {
-    return `
-                <div class="stage">
-                    <img width="160px" height="80px">
-                    <p>${stage.name}</p>
-                </div>
-    `;
+    return riot.render(roundTag, { round: round });
 }
