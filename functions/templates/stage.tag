@@ -1,6 +1,6 @@
-<stage class="stage">
+<stage>
     <img src={getStageImageUrl(stage.id)} width="160px" height="80px">
-    <p>{stage.name}</p>
+    <div class="name">{stage.name}</div>
 
     <script>
         this.stage = opts.stage;
