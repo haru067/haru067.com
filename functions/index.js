@@ -9,7 +9,12 @@ const util = require('./util');
 const template = require('./template');
 
 exports.splatoonSchedules = functions.https.onRequest((request, response) => {
-    let sendResponsePromise = getSchedulesFromDb().then(sendResponse(response));
+    let sendResponsePromise = getSchedulesFromDb().then(schedules => {
+        const html = template.renderMain(schedules);
+        response.set('Cache-Control', 'public, max-age=300, s-maxage=600');
+        return response.send(html);
+    });
+
     return confirmUpdate().then((isOld) => {
         if (isOld) {
             let updatePromise = updateScheduleDb();
@@ -18,14 +23,6 @@ exports.splatoonSchedules = functions.https.onRequest((request, response) => {
         return sendResponsePromise;
     });
 });
-
-function sendResponse(response) {
-    return (schedules) => {
-        const html = template.renderMain(schedules);
-        response.set('Cache-Control', 'public, max-age=300, s-maxage=600');
-        response.send(html);
-    };
-}
 
 function getSchedulesFromDb() {
     const gachi = getSchedulePromise('gachi');
