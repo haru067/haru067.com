@@ -5,24 +5,26 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 const db = admin.database();
 const privateFunctions = require('./private');
-const md5 = require('./util').md5;
+const util = require('./util');
 const template = require('./template');
 
 exports.splatoonSchedules = functions.https.onRequest((request, response) => {
-    fetchSchedule().then((values) => {
-        const html = template.renderMain(values);
-        response.set('Cache-Control', 'public, max-age=300, s-maxage=600');
-        response.send(html);
+    let sendResponsePromise = getSchedulesFromDb().then(sendResponse(response));
+    return confirmUpdate().then((isOld) => {
+        if (isOld) {
+            let updatePromise = updateScheduleDb();
+            return Promise.all([updatePromise, sendResponsePromise]);
+        }
+        return sendResponsePromise;
     });
 });
 
-function fetchSchedule() {
-    return confirmUpdate().then((isOld) => {
-        if (isOld) {
-            return updateScheduleDb().then((e) => getSchedulesFromDb());
-        }
-        return getSchedulesFromDb();
-    });
+function sendResponse(response) {
+    return (schedules) => {
+        const html = template.renderMain(schedules);
+        response.set('Cache-Control', 'public, max-age=300, s-maxage=600');
+        response.send(html);
+    };
 }
 
 function getSchedulesFromDb() {
@@ -45,29 +47,29 @@ function getSchedulePromise(game_type) {
 }
 
 function updateScheduleDb() {
-    console.log('Schedule updating');
-    return privateFunctions.schedules().then(json => {
+    console.info('Schedule update is executed in background');
+    return util.withTimeLogging('ScheduleUpdate', privateFunctions.schedules().then(json => {
         let updates = {};
         let lastStartTime = 0;
         for (let b of json.gachi) {
-            let key = md5(b);
+            let key = util.md5(b);
             updates[`/splatoon/schedules/gachi/${key}`] = b;
             lastStartTime = Math.max(lastStartTime, b.start_time);
         }
         for (let b of json.league) {
-            let key = md5(b);
+            let key = util.md5(b);
             updates[`/splatoon/schedules/league/${key}`] = b;
             lastStartTime = Math.max(lastStartTime, b.start_time);
         }
         for (let b of json.regular) {
-            let key = md5(b);
+            let key = util.md5(b);
             updates[`/splatoon/schedules/regular/${key}`] = b;
             lastStartTime = Math.max(lastStartTime, b.start_time);
         }
         updates[`/splatoon/schedules/metadata/last_start_time`] = lastStartTime;
         updates[`/splatoon/schedules/metadata/last_updated`] = moment().unix();
         return db.ref().update(updates);
-    });
+    }));
 }
 
 // Return true if it requires update
@@ -84,4 +86,3 @@ function confirmUpdate() {
         return false;
     });
 }
-
