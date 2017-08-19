@@ -75,17 +75,13 @@ function confirmUpdate() {
     const ref = db.ref("/splatoon/schedules/metadata");
     return ref.once('value').then((snapshot) => {
         const diff = moment().unix() - snapshot.val().last_updated;
-        if (diff > 2 * 60 * 60 /* 2hours */) {
+        if (diff > 4 * 60 * 60 /* 4hours */) {
             return true;
         }
         return false;
     }).catch((e) => {
+        console.error("Failed to get update info");
         return false;
     });
-    const sampleSchedules = schedules[0];
-    if (!sampleSchedules || sampleSchedules.length == 0) {
-        return false;
-    }
-    return false;
 }
 
