@@ -11,7 +11,7 @@ exports.renderMain = (schedules) => {
     for (let round of rounds) body += renderRoundHtml(round);
     return `
 <!doctype html>
-<html>
+<html lang="ja">
 <head>
 <title>Splatoon2 ステージ情報</title>
 <style type="text/css">
@@ -24,6 +24,7 @@ body {
 .schedule-container {
   display: flex;
   justify-content: center;
+  margin-top: 1.5rem;
 }
 
 .stage-container {
@@ -41,23 +42,20 @@ stage.stage-b {
 
 round {
   display: block;
-  margin: 1rem 0px;
-}
-
-round div.date {
   background-color: #222;
-  padding: 0px 1rem;
+  margin: 1rem 0px;
+  padding: 1rem 0px;
 }
 
 round h1 {
-  margin-top: 0px;
-  margin-bottom: 1rem;
+  margin: 0px;
   font-size: 1.5rem;
 }
 
 round h2 {
   font-size: 1rem;
   margin: 0px;
+  padding: 0px;
 }
 
 
@@ -69,27 +67,43 @@ schedule {
 }
 
 schedule div.title {
-  text-align: left;
+  text-align: center;
+  margin-top: -32px;
   margin-bottom: 0.5rem;
+  height: 44px;
+  padding-left: 8px;
+}
+
+schedule.regular div.title {
+  background: url(../img/ika-title-regular.png) no-repeat;
+}
+
+schedule.gachi div.title {
+  background: url(../img/ika-title-gachi.png) no-repeat;
+}
+
+schedule.league div.title {
+  background: url(../img/ika-title-league.png) no-repeat;
 }
 
 schedule h1 {
+  line-height: 48px;
+  text-align: left;
   font-size: 1.2rem;
-  background-color: rgba(0,0,0,0.3);
-  padding: 0px 8px;
   margin: 0px;
+  padding: 0px;
 }
 
 schedule.regular {
-    background-color: #689F38;
+    background: url(../img/ika-stage-regular.png) repeat #689F38;
 }
 
 schedule.gachi {
-    background-color: #E91E63;
+    background: url(../img/ika-stage-gachi.png) repeat #E91E63;
 }
 
 schedule.league {
-    background-color: #FF5722;
+    background: url(../img/ika-stage-league.png) repeat #FF5722;
 }
 
 stage div.name {
@@ -127,7 +141,8 @@ function convertToRounds(schedules) {
         let startTime = regular.start_time;
         let endTime = regular.end_time;
 
-        let date = moment.unix(startTime).format('M月D日');
+        moment.lang('ja', {weekdaysShort: ["日","月","火","水","木","金","土"]});
+        let date = moment.unix(startTime).format('M月D日(ddd)');
         let time = moment.unix(startTime).format('H:mm') + ' - ' + moment.unix(endTime).format('H:mm');
         let round = { date: date, time: time, regular: regular, gachi: gachi, league: league };
         rounds.push(round);
@@ -135,7 +150,7 @@ function convertToRounds(schedules) {
     return rounds;
 }
 
-function renderTitleHtml() { 
+function renderTitleHtml() {
     return `<h1>🦑 Splatoon2 ステージ情報 🦑</h1>`;
 }
 
