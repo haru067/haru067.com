@@ -1,5 +1,5 @@
 <stage>
-    <img src={getStageImageUrl(stage.id)} width="160px" height="80px">
+    <img src={getStageImageUrl(stage.id)} alt={stage.name} width="160px" height="80px">
     <div class="name">{stage.name}</div>
 
     <script>
