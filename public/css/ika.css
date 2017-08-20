@@ -1,0 +1,150 @@
+
+html { font-size: 62.5%; }
+
+body {
+  font-size: 1.6rem;
+  text-align: center;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+round {
+  display: block;
+  background-color: #222;
+  margin: 1rem 0px;
+  padding: 1rem 0px;
+}
+
+round div.date {
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+round div.schedule-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+schedule {
+  display: block;
+  border-radius: 16px;
+  text-shadow: 1px 1px 4px #000000;
+  margin: 2rem auto;
+}
+
+.stage-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0.8rem 1rem;
+}
+
+stage {
+  display: block;
+  margin: 0.8rem 1rem;
+}
+
+@media (max-width: 420px) {
+  round div.schedule-container { flex-direction: column; }
+  schedule { margin: 2rem auto; }
+
+  .stage-container { flex-direction: column; }
+}
+
+@media (min-width: 420px) {
+  round div.schedule-container { flex-direction: column; }
+  schedule { margin: 2rem auto; }
+
+  .stage-container { flex-direction: row; }
+}
+
+@media (min-width: 700px) {
+  round div.schedule-container { flex-direction: row; }
+  schedule { margin: 2rem 1rem; }
+
+  .stage-container { flex-direction: column; }
+}
+
+@media (min-width: 1200px) {
+  round div.schedule-container { flex-direction: row; }
+  schedule { margin: 2rem 1rem; }
+
+  .stage-container { flex-direction: row; }
+}
+
+round h1 {
+  font-size: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+round h2 {
+  font-size: 1.6rem;
+  margin: 0;
+  padding: 0;
+}
+
+
+schedule div.title {
+  text-align: center;
+  margin: -2.4rem 0 -1.0rem 1rem;
+  height: 44px;
+  padding-left: 8px;
+}
+
+schedule.regular div.title {
+  background: url(../img/ika-title-regular.png) no-repeat;
+}
+
+schedule.gachi div.title {
+  background: url(../img/ika-title-gachi.png) no-repeat;
+}
+
+schedule.league div.title {
+  background: url(../img/ika-title-league.png) no-repeat;
+}
+
+schedule h1 {
+  line-height: 46px;
+  text-align: left;
+  font-size: 1.6rem;
+  margin: 0;
+  padding: 0;
+}
+
+schedule.regular {
+    background: url(../img/ika-stage-regular.png) repeat #689F38;
+}
+
+schedule.gachi {
+    background: url(../img/ika-stage-gachi.png) repeat #FF5722;
+}
+
+schedule.league {
+    background: url(../img/ika-stage-league.png) repeat #E91E63;
+}
+
+
+stage div.name {
+  border-radius: 0 0 16px 16px;
+  margin: 0 auto;
+  padding: 0.4rem 0;
+  background-color: rgba(0,0,0,0.6);
+  width: 160px;
+  font-size: 0.8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+stage img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 16px 16px 0 0;
+}
