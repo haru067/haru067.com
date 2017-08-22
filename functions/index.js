@@ -8,19 +8,16 @@ const privateFunctions = require('./private');
 const util = require('./util');
 const template = require('./template');
 
+// cron
+exports.updateCron = functions.pubsub.topic('four-hourly-tick').onPublish((event) => {
+    return updateScheduleDb();
+});
+
 exports.splatoonSchedules = functions.https.onRequest((request, response) => {
-    let sendResponsePromise = getSchedulesFromDb().then(schedules => {
+    return getSchedulesFromDb().then(schedules => {
         const html = template.renderMain(schedules);
         response.set('Cache-Control', 'public, max-age=300, s-maxage=600');
         return response.send(html);
-    });
-
-    return confirmUpdate().then((isOld) => {
-        if (isOld) {
-            let updatePromise = updateScheduleDb();
-            return Promise.all([updatePromise, sendResponsePromise]);
-        }
-        return sendResponsePromise;
     });
 });
 
@@ -67,19 +64,4 @@ function updateScheduleDb() {
         updates[`/splatoon/schedules/metadata/last_updated`] = moment().unix();
         return db.ref().update(updates);
     }));
-}
-
-// Return true if it requires update
-function confirmUpdate() {
-    const ref = db.ref("/splatoon/schedules/metadata");
-    return ref.once('value').then((snapshot) => {
-        const diff = moment().unix() - snapshot.val().last_updated;
-        if (diff > 4 * 60 * 60 /* 4hours */) {
-            return true;
-        }
-        return false;
-    }).catch((e) => {
-        console.error("Failed to get update info");
-        return false;
-    });
 }
