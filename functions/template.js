@@ -19,6 +19,10 @@ exports.renderMain = (schedules) => {
 </head>
 <body>
   ${body}
+  <div>🦑</div>
+  <footer>
+    ※ このサイトは非公式のサービスです。任天堂株式会社とは一切関係ありません。
+  </footer>
 </body>
 </html>
     `;
