@@ -1,20 +1,20 @@
 <stage>
-    <img src={getStageImageUrl(stage.id)} alt={stage.name} width="160px" height="80px">
+    <img src={getStageImageUrl(stage.id)} alt={stage.name} width="160px" height="90px">
     <div class="name">{stage.name}</div>
 
     <script>
         this.stage = opts.stage;
         this.getStageImageUrl = (id) => {
             const map = {
-                1: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F1.jpg?alt=media&token=bc410f73-1d73-4ba0-8505-54378d98db3a",
-                2: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F2.jpg?alt=media&token=2273fbe8-9eab-49f7-b4ec-95c5b74d0eea",
-                0: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F0.jpg?alt=media&token=631e7666-0ff2-4201-abbb-6e8844f874df",
-                3: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F3.jpg?alt=media&token=e0de67a7-e690-404b-b746-679ed0d2a3b4",
-                4: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F4.jpg?alt=media&token=fed9fd01-ae07-40ac-9497-8b0f3694d896",
-                5: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F5.jpg?alt=media&token=67c506da-54b4-41f8-84dd-4edc6750c010",
-                6: null,
-                7: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F7.jpg?alt=media&token=61ebfb66-6908-416d-ad67-1ebd8bf455c3",
-                8: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F8.jpg?alt=media&token=b14f3eb8-62fc-401e-a2cc-20d2483e4b71"
+                0: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F0.jpg?alt=media&token=f5168aff-3751-43bf-8a8e-600524bea898",
+                1: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F1.jpg?alt=media&token=269ff28d-9d22-4846-b30f-59a30da7c960",
+                2: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F2.jpg?alt=media&token=ef45c021-349b-4987-b601-2893665b8e36",
+                3: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F3.jpg?alt=media&token=6dccc814-8be5-451f-8ae4-34dacf319573",
+                4: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F4.jpg?alt=media&token=3b3402cf-8974-4ed2-95c5-3d395cd00e83",
+                5: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F5.jpg?alt=media&token=8cf7c6d7-fa84-431b-81a4-1702cee492af",
+                6: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F6.jpg?alt=media&token=e4055808-30ea-41f8-96c0-bfb510f4325c",
+                7: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F7.jpg?alt=media&token=8515b8fb-0623-4362-9ebb-ac52efbf7689",
+                8: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F8.jpg?alt=media&token=5f562b3d-6065-49bb-b06c-61719dbe47d1",
             }
             return map[id];
         }
