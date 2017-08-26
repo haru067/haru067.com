@@ -8,6 +8,14 @@ body {
   color: #ffffff;
 }
 
+footer {
+  border-top: solid 1px #333333;
+  font-size: 1.4rem;
+  margin: 2rem 10rem;
+  padding: 2rem;
+  color: #999;
+}
+
 h1 {
   font-size: 2rem;
 }
@@ -42,12 +50,12 @@ schedule {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: 0.8rem 1rem;
+  margin: 0.6rem 0.8rem;
 }
 
 stage {
   display: block;
-  margin: 0.8rem 1rem;
+  margin: 0.6rem 0.8rem;
 }
 
 @media (max-width: 420px) {
