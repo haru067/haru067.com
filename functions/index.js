@@ -14,7 +14,9 @@ exports.updateCron = functions.pubsub.topic('four-hourly-tick').onPublish((event
     return updateScheduleDb();
 });
 
-exports.apiai = functions.https.onRequest(apiai.main);
+exports.apiai = functions.https.onRequest((require, response) => {
+    return apiai.main(require, response, getSchedulePromise);
+});
 
 exports.splatoonSchedules = functions.https.onRequest((request, response) => {
     return getSchedulesFromDb().then(schedules => {
