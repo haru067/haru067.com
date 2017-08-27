@@ -7,46 +7,15 @@ const db = admin.database();
 const privateFunctions = require('./private');
 const util = require('./util');
 const template = require('./template');
+const apiai = require('./apiai');
 
 // cron
 exports.updateCron = functions.pubsub.topic('four-hourly-tick').onPublish((event) => {
     return updateScheduleDb();
 });
 
-exports.apiai = functions.https.onRequest((request, response) => {
-    let isValidToken = privateFunctions.isValidToken(request.get('accesstoken'));
-    if (!isValidToken) {
-        console.warn('Invalid token');
-        return response.status(400).send('Bad request');
-    }
-    let apikey = privateFunctions.getDocomoApiKey();
-    let receivedMessage = request.body.result.resolvedQuery;
-    if (!receivedMessage) {
-        console.warn('Empty message');
-        return response.status(400).send('Bad request');
-    }
-    type = [undefined, 20, 30];
-    const body = {
-        utt: request.body.result.resolvedQuery,
-        t: type[Math.floor(Math.random()*type.length)],
-    };
-    const headers = {"Content-Type": "application/json; charset=utf-8"};
-    return fetch(`https://api.apigw.smt.docomo.ne.jp/dialogue/v1/dialogue?APIKEY=${apikey}`, {
-        headers: headers,
-        method: 'POST',
-        body: JSON.stringify(body)
-    })
-        .then(res => res.json())
-        .then(json => {
-            let message = json.utt;
-            let responseJson = {
-                "speech": message,
-                "displayText": message,
-                "data": { "slack": { "text": message } },
-                "source": "haru067"
-            }
-            return response.send(responseJson);
-        });
+exports.apiai = functions.https.onRequest((require, response) => {
+    return apiai.main(require, response, getSchedulePromise);
 });
 
 exports.splatoonSchedules = functions.https.onRequest((request, response) => {
