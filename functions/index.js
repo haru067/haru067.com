@@ -4,14 +4,14 @@ moment.tz.setDefault("Asia/Tokyo");
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 const db = admin.database();
-const privateFunctions = require('./private');
+const ika = require('./ika');
 const util = require('./util');
 const template = require('./template');
 const apiai = require('./apiai');
 
 // cron
 exports.updateCron = functions.pubsub.topic('four-hourly-tick').onPublish((event) => {
-    return updateScheduleDb();
+    return updateScheduleDb().catch(e => { console.log(e); });
 });
 
 exports.apiai = functions.https.onRequest((require, response) => {
@@ -47,7 +47,10 @@ function getSchedulePromise(game_type) {
 
 function updateScheduleDb() {
     console.info('Schedule update is executed in background');
-    return util.withTimeLogging('ScheduleUpdate', privateFunctions.schedules().then(json => {
+    let updateSchedule = ika.schedules().then(json => {
+        const error = validateScheduleJson(json);
+        if (error) throw error;
+
         let updates = {};
         let lastStartTime = 0;
         for (let b of json.gachi) {
@@ -68,5 +71,14 @@ function updateScheduleDb() {
         updates[`/splatoon/schedules/metadata/last_start_time`] = lastStartTime;
         updates[`/splatoon/schedules/metadata/last_updated`] = moment().unix();
         return db.ref().update(updates);
-    }));
+    });
+    return util.withTimeLogging('ScheduleUpdate', updateSchedule);
+}
+
+function validateScheduleJson(json) {
+    if (!json) return 'undefine json';
+    if (!json.gachi) return 'empty gachi data';
+    if (!json.league) return 'empty league data';
+    if (!json.regular) return 'empty regular data';
+    return null;
 }
