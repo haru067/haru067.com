@@ -1,4 +1,3 @@
-
 const privateFunctions = require('./private');
 const fetch = require('isomorphic-fetch')
 
