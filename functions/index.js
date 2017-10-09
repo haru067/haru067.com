@@ -4,7 +4,7 @@ moment.tz.setDefault("Asia/Tokyo");
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 const db = admin.database();
-const privateFunctions = require('./private');
+const ika = require('./ika');
 const util = require('./util');
 const template = require('./template');
 const apiai = require('./apiai');
@@ -47,7 +47,7 @@ function getSchedulePromise(game_type) {
 
 function updateScheduleDb() {
     console.info('Schedule update is executed in background');
-    let updateSchedule = privateFunctions.schedules().then(json => {
+    let updateSchedule = ika.schedules().then(json => {
         const error = validateScheduleJson(json);
         if (error) throw error;
 
