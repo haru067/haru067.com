@@ -3,7 +3,7 @@ const moment = require('moment-timezone');
 moment.tz.setDefault("Asia/Tokyo");
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
-const db = admin.database();
+const db = admin.firestore();
 const ika = require('./ika');
 const util = require('./util');
 const template = require('./template');
@@ -36,11 +36,11 @@ function getSchedulesFromDb() {
 }
 
 function getSchedulePromise(game_type) {
-    const ref = db.ref("/splatoon/schedules/" + game_type);
+    const ref = db.collection("splatoon/schedule/" + game_type);
     const startAt = moment().subtract(2, 'hours').unix();
-    return ref.orderByChild('start_time').startAt(startAt).limitToFirst(6).once('value').then(snapshot => {
+    return ref.where('start_time', '>', startAt).orderBy('start_time').limit(6).get().then(snapshot => {
         let schedules = [];
-        snapshot.forEach(item => { schedules.push(item.val()) });
+        snapshot.forEach(item => { schedules.push(item.data()) });
         return schedules;
     });
 }
@@ -51,26 +51,27 @@ function updateScheduleDb() {
         const error = validateScheduleJson(json);
         if (error) throw error;
 
-        let updates = {};
+        let batch = db.batch();
         let lastStartTime = 0;
         for (let b of json.gachi) {
             let key = util.md5(b);
-            updates[`/splatoon/schedules/gachi/${key}`] = b;
+            batch.set(db.collection('splatoon/schedule/gachi').doc(key), b);
             lastStartTime = Math.max(lastStartTime, b.start_time);
         }
         for (let b of json.league) {
             let key = util.md5(b);
-            updates[`/splatoon/schedules/league/${key}`] = b;
+            batch.set(db.collection('splatoon/schedule/league').doc(key), b);
             lastStartTime = Math.max(lastStartTime, b.start_time);
         }
         for (let b of json.regular) {
             let key = util.md5(b);
-            updates[`/splatoon/schedules/regular/${key}`] = b;
+            batch.set(db.collection('splatoon/schedule/regular').doc(key), b);
             lastStartTime = Math.max(lastStartTime, b.start_time);
         }
-        updates[`/splatoon/schedules/metadata/last_start_time`] = lastStartTime;
-        updates[`/splatoon/schedules/metadata/last_updated`] = moment().unix();
-        return db.ref().update(updates);
+
+        batch.update(db.doc('splatoon/schedule'), { last_start_time: lastStartTime });
+        batch.update(db.doc('splatoon/schedule'), { last_updated: moment().unix() });
+        return batch.commit();
     });
     return util.withTimeLogging('ScheduleUpdate', updateSchedule);
 }
