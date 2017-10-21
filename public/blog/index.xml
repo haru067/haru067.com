@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>はるログ</title>
-    <link>http://haru067.com/blog/</link>
+    <link>https://haru067.com/blog/</link>
     <description>Recent content on はるログ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <lastBuildDate>Sat, 21 Oct 2017 19:49:53 +0900</lastBuildDate>
     
-	<atom:link href="http://haru067.com/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://haru067.com/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>helloworld</title>
-      <link>http://haru067.com/blog/post/20171021-helloworld/</link>
+      <link>https://haru067.com/blog/post/20171021-helloworld/</link>
       <pubDate>Sat, 21 Oct 2017 19:49:53 +0900</pubDate>
       
-      <guid>http://haru067.com/blog/post/20171021-helloworld/</guid>
+      <guid>https://haru067.com/blog/post/20171021-helloworld/</guid>
       <description>Introduction 特にはてなブログである必要はなさそうなのでharu067.com内部にブログを置くことにした、 各所に依存するよりgithubで一元管理したほうが楽そう</description>
     </item>
     
