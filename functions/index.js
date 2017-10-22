@@ -9,6 +9,10 @@ const util = require('./util');
 const template = require('./template');
 const apiai = require('./apiai');
 
+exports.ping = functions.https.onRequest((require, response) => {
+    response.send('pong');
+});
+
 // cron
 exports.updateCron = functions.pubsub.topic('four-hourly-tick').onPublish((event) => {
     return updateScheduleDb().catch(e => { console.log(e); });
@@ -26,6 +30,12 @@ exports.splatoonSchedules = functions.https.onRequest((request, response) => {
     });
 });
 
+exports.query = functions.https.onRequest((require, response) => {
+    const rule = 'splat_zones';
+    const stage = null;
+    return queryLatest(rule, stage).then(e => response.send('hello' + e.rule.key)).catch(e => { console.log(e); });
+});
+
 function getSchedulesFromDb() {
     const gachi = getSchedulePromise('gachi');
     const league = getSchedulePromise('league');
@@ -37,8 +47,8 @@ function getSchedulesFromDb() {
 
 function getSchedulePromise(game_type) {
     const ref = db.collection("splatoon/schedule/" + game_type);
-    const startAt = moment().subtract(2, 'hours').unix();
-    return ref.where('start_time', '>', startAt).orderBy('start_time').limit(6).get().then(snapshot => {
+    const twoHoursAgo = moment().subtract(2, 'hours').unix();
+    return ref.orderBy('start_time').startAt(twoHoursAgo).limit(6).get().then(snapshot => {
         let schedules = [];
         snapshot.forEach(item => { schedules.push(item.data()) });
         return schedules;
@@ -82,4 +92,15 @@ function validateScheduleJson(json) {
     if (!json.league) return 'empty league data';
     if (!json.regular) return 'empty regular data';
     return null;
+}
+
+function queryLatest(rule_key, stage = null) {
+    const ref = db.collection("splatoon/schedule/gachi");
+    return ref.where('rule.key', '==', rule_key).orderBy('start_time').get().then(snapshot => {
+        for (let doc of snapshot.docs) {
+            var data = doc.data()
+            console.log(data.start_time);
+        }
+        return data;
+    });
 }

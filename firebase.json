@@ -12,7 +12,8 @@
     "rewrites": [
       {"source" : "/icon", "destination" : "/img/me.png"},
       {"source" : "/history", "destination" : "/history.html"},
-      {"source" : "/splatoon/schedules", "function" : "splatoonSchedules"}
+      {"source" : "/splatoon/schedules", "function" : "splatoonSchedules"},
+      {"source" : "/ping", "function" : "ping"}
     ]
   }
 }
