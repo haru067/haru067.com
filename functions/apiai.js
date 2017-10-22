@@ -13,11 +13,12 @@ exports.main = (request, response, getSchedulePromise) => {
     let message = result.resolvedQuery;
     let type = result.action;
     let fetchMessagePromise = fetchConversation(apikey, message);
+    let user = request.get('user');
     if (type == 'splatoon_schedule') {
         let param = result.parameters;
         rule = param ? param.rule : undefined;
         rule = rule ? rule : 'regular';
-        fetchMessagePromise = fetchSplatoonSchedule(rule, getSchedulePromise);
+        fetchMessagePromise = fetchSplatoonSchedule(user, rule, getSchedulePromise);
     }
     return fetchMessagePromise.then(message => sendMessage(response, message));
 };
@@ -51,7 +52,7 @@ function fetchConversation(apikey, message) {
     }).then(res => res.json()).then(json => json.utt);
 }
 
-function fetchSplatoonSchedule(rule, getSchedulePromise) {
+function fetchSplatoonSchedule(user, rule, getSchedulePromise) {
     console.log('Called splatoon schedule');
     return getSchedulePromise(rule).then(schedules => {
         console.log(schedules[0]);
@@ -61,7 +62,11 @@ function fetchSplatoonSchedule(rule, getSchedulePromise) {
         let endTime = schedules[0].end_time;
 
         let time = moment.unix(startTime).format('H:mm') + ' - ' + moment.unix(endTime).format('H:mm');
-        let text = `${rule}は${time}まで、${stageA}と${stageB}やな`;
+        let displayRule = getDisplayRule(rule);
+        let text = `${displayRule}は${time}まで、${stageA}と${stageB}やな`;
+        if (user == 'haru067') {
+            text = `${time}の${displayRule}はね、${stageA}と${stageB}`;
+        }
         return text;
     });
 }
@@ -75,4 +80,10 @@ function sendMessage(response, message) {
     }
     console.log(responseJson);
     return response.send(responseJson);
+}
+
+function getDisplayRule(rule) {
+    if (rule == 'gachi') return 'ガチマ';
+    if (rule == 'league') return 'リグマ';
+    if (rule == 'regular') return 'ナワバリ';
 }
