@@ -1,2 +1,2 @@
 # haru067.com
-homepageです
+[homepage](https://haru067.com)です
