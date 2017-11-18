@@ -3,27 +3,22 @@ const moment = require('moment-timezone');
 moment.tz.setDefault("Asia/Tokyo");
 const privateFunctions = require('./private');
 
-exports.main = (request, response, getSchedulePromise) => {
-    const apikey = privateFunctions.getDocomoApiKey();
-    let error = validate(apikey, request, response);
-    if (error) {
-        return error;
+exports.sendMessage = (response, message) => {
+    let responseJson = {
+        "speech": message,
+        "displayText": message,
+        "data": { "slack": { "text": message } },
+        "source": "haru067"
     }
-    const result = request.body.result;
-    let message = result.resolvedQuery;
-    let type = result.action;
-    let fetchMessagePromise = fetchConversation(apikey, message);
-    let user = request.get('user');
-    if (type == 'splatoon_schedule') {
-        let param = result.parameters;
-        rule = param ? param.rule : undefined;
-        rule = rule ? rule : 'regular';
-        fetchMessagePromise = fetchSplatoonSchedule(user, rule, getSchedulePromise);
-    }
-    return fetchMessagePromise.then(message => sendMessage(response, message));
+    console.log(responseJson);
+    return response.send(responseJson);
 };
 
-function validate(apikey, request, response) {
+exports.getType = (request) => request.body.result.action;
+exports.getGameMode = (request) => (request.body.result.parameters && request.body.result.parameters.rule) || 'regular';
+exports.getRule = (request) => (request.body.result.parameters && request.body.result.parameters.rule) || 'rainmaker';
+
+exports.validate = (request, response) => {
     let isValidToken = privateFunctions.isValidToken(request.get('accesstoken'));
     if (!isValidToken) {
         console.warn('Invalid token');
@@ -37,52 +32,64 @@ function validate(apikey, request, response) {
     return null;
 }
 
-function fetchConversation(apikey, message) {
+exports.fetchDefaultMessage = (request) => {
     // console.log('Called default conversation');
-    const headers = {"Content-Type": "application/json; charset=utf-8"};
+    const apikey = privateFunctions.getDocomoApiKey();
+    const result = request.body.result;
+    const message = result.resolvedQuery;
+    console.log('received message:' + message);
+    const user = request.get('user');
+    const headers = { "Content-Type": "application/json; charset=utf-8" };
     const type = [undefined, 20, 30];
     const body = {
         utt: message,
-        t: type[Math.floor(Math.random()*type.length)],
+        t: type[Math.floor(Math.random() * type.length)],
     };
     return fetch(`https://api.apigw.smt.docomo.ne.jp/dialogue/v1/dialogue?APIKEY=${apikey}`, {
         headers: headers,
         method: 'POST',
         body: JSON.stringify(body)
     }).then(res => res.json()).then(json => json.utt);
-}
+};
 
-function fetchSplatoonSchedule(user, rule, getSchedulePromise) {
-    console.log('Called splatoon schedule');
-    return getSchedulePromise(rule).then(schedules => {
-        console.log(schedules[0]);
-        let stageA = schedules[0].stage_a.name;
-        let stageB = schedules[0].stage_b.name;
-        let startTime = schedules[0].start_time;
-        let endTime = schedules[0].end_time;
+exports.getScheduleMessage = (request, schedule) => {
+    const user = request.get('user');
+    console.log(schedule);
 
-        let time = moment.unix(startTime).format('H:mm') + ' - ' + moment.unix(endTime).format('H:mm');
-        let displayRule = getDisplayRule(rule);
-        let text = `${displayRule}は${time}まで、${stageA}と${stageB}やな`;
-        if (user == 'haru067') {
-            text = `${time}の${displayRule}はね、${stageA}と${stageB}`;
-        }
-        return text;
-    });
-}
+    let gameMode = schedule.game_mode.key;
+    let stageA = schedule.stage_a.name;
+    let stageB = schedule.stage_b.name;
+    let startTime = schedule.start_time;
+    let endTime = schedule.end_time;
 
-function sendMessage(response, message) {
-    let responseJson = {
-        "speech": message,
-        "displayText": message,
-        "data": { "slack": { "text": message } },
-        "source": "haru067"
+    let time = moment.unix(startTime).format('H:mm') + ' - ' + moment.unix(endTime).format('H:mm');
+    let displayGameMode = getDisplayGameMode(gameMode);
+    let text = `${displayGameMode}は${time}まで、${stageA}と${stageB}やな`;
+    if (user == 'haru067') {
+        text = `${stageA}と${stageB} (${time})`;
     }
-    console.log(responseJson);
-    return response.send(responseJson);
-}
+    return text;
+};
 
-function getDisplayRule(rule) {
+exports.getNextScheduleMessage = (request, schedule) => {
+    if (!schedule) {
+        return 'これはもうわからんね'
+    }
+    const user = request.get('user');
+    console.log(schedule);
+
+    let rule = schedule.rule.name;
+    let stageA = schedule.stage_a.name;
+    let stageB = schedule.stage_b.name;
+    let startTime = schedule.start_time;
+    let endTime = schedule.end_time;
+
+    let time = moment.unix(startTime).format('H:mm') + ' - ' + moment.unix(endTime).format('H:mm');
+    let text = `次の${rule}は${time}で、${stageA}と${stageB}`;
+    return text;
+};
+
+function getDisplayGameMode(rule) {
     if (rule == 'gachi') return 'ガチマ';
     if (rule == 'league') return 'リグマ';
     if (rule == 'regular') return 'ナワバリ';
