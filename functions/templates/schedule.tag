@@ -19,6 +19,8 @@
             this.ruleName = `${this.schedule.game_mode.name} - ホコ`;
         } else if (this.schedule.rule.key == 'splat_zones'){
             this.ruleName = `${this.schedule.game_mode.name} - エリア`;
+        } else if (this.schedule.rule.key == 'clam_blitz'){
+            this.ruleName = `${this.schedule.game_mode.name} - アサリ`;
         } else {
             this.ruleName = this.schedule.rule.name;
         }
