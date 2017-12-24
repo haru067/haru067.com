@@ -72,3 +72,18 @@ exports.queryNextSchedule = (db, rule_key, stage = null) => {
         return data = snapshot.docs[0] && snapshot.docs[0].data();
     });
 }
+
+exports.storeNote = (db, username, text) => {
+    const ref = db.collection("memo").doc('haur067'); // we use hard-coded username so far because this is only for private use.
+    return ref.get().then(doc => {
+        // Pull
+        return doc.exists ?  doc.data() : {list: []};
+    }).then(data => {
+        // Push
+        data.list.push(text);
+        console.log(data);
+        return ref.set(data);
+    }).catch(err => {
+        console.log(err);
+    });
+}
