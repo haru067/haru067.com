@@ -72,3 +72,46 @@ exports.queryNextSchedule = (db, rule_key, stage = null) => {
         return data = snapshot.docs[0] && snapshot.docs[0].data();
     });
 }
+
+exports.storeNote = (db, username, text) => {
+    const ref = db.collection("memo").doc('haur067'); // we use hard-coded username so far because this is only for private use.
+    return ref.get().then(doc => {
+        // Pull
+        return doc.exists ?  doc.data() : {list: []};
+    }).then(data => {
+        // Push
+        data.list.push(text);
+        console.log(data);
+        return ref.set(data);
+    }).catch(err => {
+        console.log(err);
+    });
+}
+
+exports.listMemo067 = (db) => {
+    return fetchMemo067(db);
+}
+
+exports.deleteMemo067 = (db, text) => {
+    text = text.trim();
+    if (text.startsWith('done ')) {
+        text = text.substr('done '.length); // command
+    } else {
+        return new Promise((resolve, reject) => {resolve(null)})
+    }
+    return fetchMemo067(db).then(list => {
+        let index = list.indexOf(text);
+        if (index >= 0) {
+            list.splice(index, 1);
+        }
+        console.log(list);
+        return db.collection("memo").doc('haur067').set({list: list});
+    }).then(data => text);
+}
+
+function fetchMemo067(db) {
+    const ref = db.collection("memo").doc('haur067'); // we use hard-coded username so far because this is only for private use.
+    return ref.get().then(doc => {
+        return doc.exists ?  doc.data().list : null;
+    });
+}
