@@ -1,0 +1,12 @@
+<section class="section">
+  <div class="container">
+    <footer class="footer has-text-centered">
+      <a href="{{ .Site.BaseURL }}">
+        <span class="icon"><i class="fa fa-home fa-lg"></i></span>
+      </a>
+    </footer>
+  </div>
+</section>
+{{ if .Site.GoogleAnalytics }}
+{{ template "_internal/google_analytics_async.html" . }}
+{{ end }}

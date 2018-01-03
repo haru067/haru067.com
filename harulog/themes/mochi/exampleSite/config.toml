@@ -1,0 +1,25 @@
+baseurl = "https://example.com"
+languageCode = "en"
+title = "Mochi"
+theme = "mochi"
+copyright = "&copy; <a href=\"https://github.com/haru067\">haru067</a> 2018"
+disqusShortname = "shortname"
+googleAnalytics = ""
+
+[params]
+
+[params.highlight]
+style = "github"
+languages = ["go", "dockerfile"]
+
+[[params.social]]
+url = "https://github.com/haru067"
+fa_icon = "fa-github"
+
+[[params.social]]
+url = "https://twitter.com/haru067"
+fa_icon = "fa-twitter"
+
+[[params.social]]
+url = "/index.xml"
+fa_icon = "fa-rss"
