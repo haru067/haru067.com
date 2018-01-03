@@ -73,6 +73,12 @@ exports.queryNextSchedule = (db, rule_key, stage = null) => {
     });
 }
 
+function tweet(twitter, text) {
+    return twitter.post('statuses/update', {status: text})
+        .then(tweet => { console.log(tweet);})
+        .catch(error => { console.log(error);});
+}
+
 exports.storeNote = (db, username, text) => {
     const ref = db.collection("memo").doc('haur067'); // we use hard-coded username so far because this is only for private use.
     return ref.get().then(doc => {
@@ -86,4 +92,15 @@ exports.storeNote = (db, username, text) => {
     }).catch(err => {
         console.log(err);
     });
+}
+
+exports.tweetMemo067 = (db, twitter, txt) => {
+    const ref = db.collection("memo").doc('haur067'); // we use hard-coded username so far because this is only for private use.
+    return ref.get().then(doc => {
+        return doc.exists ?  doc.data().list : null;
+    }).then(list => {
+        let message = list ? list.reduce((a, b) => `${a}、${b}`) : 'なにもないよ'
+        message = '今のmemo067はね、' + message;
+        return tweet(twitter, message);
+    })
 }

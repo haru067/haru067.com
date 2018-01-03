@@ -1,3 +1,4 @@
+const Twitter = require('twitter');
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
@@ -73,5 +74,6 @@ exports.memo067 = functions.https.onRequest((request, response) => {
 });
 
 exports.twitterBot067 = functions.https.onRequest((request, response) => {
-    response.send('pong');
+    const client = new Twitter(privateFunctions.getTwitterClientParams()); 
+    return repo.tweetMemo067(db, client, '').then(result => response.send('ok'));
 });
