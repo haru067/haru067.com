@@ -1,0 +1,21 @@
+<section class="section">
+  <div class="container">
+    <nav class="level">
+      <div class="level-left">
+        <a class="level-item" href="{{ .Site.BaseURL }}">
+          <figure class="image is-32x32"><img src="{{ .Site.Params.avatar.url }}"></figure>
+        </a>
+        <a class="level-item" href="{{ .Site.BaseURL }}">
+          <h1 class="title is-4">{{ .Site.Title }}</h1>
+        </a>
+      </div>
+      <div class="level-right is-hidden-mobile">
+        {{ range .Site.Params.social }}
+        <a class="level-item" href="{{ .url }}">
+          <span class="icon"><i class="fa {{ .fa_icon }}"></i></span>
+        </a>
+        {{ end }}
+      </div>
+    </nav>
+  </div>
+</section>

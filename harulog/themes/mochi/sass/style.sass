@@ -1,0 +1,63 @@
+$blue: #2077b2
+$grey-dark: #707070
+$grey-darker: #444444
+$primary: $blue
+$family-sans-serif: "游ゴシック", YuGothic, "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif
+
+@import "node_modules/bulma/bulma"
+
+.container
+  max-width: 800px
+  margin: 0 auto
+
+.content
+  font-size: 1rem
+  line-height: 1.75
+
+.media-content
+  .subtitle+.title
+    margin-bottom: 10px
+  .content
+    line-height: 1.5
+
+html
+  background-color: transparent
+
+.section
+  padding: 40px 20px
+
+body, .title a, span.icon
+  color: $grey-darker
+
+article+article
+  margin-top: 80px
+
+.content
+  h1, h2, h3, h4, h5, h6
+    line-height: 1.25
+    font-weight: bold
+    &:not(:first-child)
+      margin-top: 80px
+  h1+h2:not(:first-child),
+  h2+h3:not(:first-child),
+  h3+h4:not(:first-child),
+  h4+h5:not(:first-child),
+  h5+h6:not(:first-child)
+    margin-top: 20px
+  h1
+    font-size: 24px
+  h2
+    font-size: 22px
+  h3
+    font-size: 20px
+  h4
+    font-size: 18px
+  h5
+    font-size: 17px
+  h6
+    font-size: 16px
+  p,
+  ol,
+  ul,
+    &:not(:last-child)
+      margin-bottom: 1.5em
