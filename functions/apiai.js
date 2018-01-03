@@ -89,6 +89,21 @@ exports.getNextScheduleMessage = (request, schedule) => {
     return text;
 };
 
+exports.getMemo067ListMessage = (request, list) => {
+    let message = Array.isArray(list) && list.length > 0 ? list.reduce((a, b) => `${a}、${b}`) : 'なにもないよ'
+    message = '今のmemo067はね、' + message;
+    return message;
+};
+
+exports.getMemo067DeleteMessage = (request, deleted) => {
+    if (!deleted) {
+        console.log(request.body.result);
+        return "(´ε｀；)ｳｰﾝ…";
+    }
+    message = `「${deleted}」を完了した`
+    return message;
+};
+
 function getDisplayGameMode(rule) {
     if (rule == 'gachi') return 'ガチマ';
     if (rule == 'league') return 'リグマ';

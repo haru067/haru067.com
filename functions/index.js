@@ -45,6 +45,11 @@ exports.apiai = functions.https.onRequest((request, response) => {
     } else if (type == 'splatoon_search') {
         let rule = apiai.getRule(request);
         fetchMessage = repo.queryNextSchedule(db, rule).then(schedule => apiai.getNextScheduleMessage(request, schedule));
+    } else if (type == 'list_memo067') {
+        fetchMessage = repo.listMemo067(db).then(list => apiai.getMemo067ListMessage(request, list));
+    } else if (type == 'delete_memo067') {
+        let receivedMessage = request.body.result.resolvedQuery;
+        fetchMessage = repo.deleteMemo067(db, receivedMessage).then(deleted => apiai.getMemo067DeleteMessage(request, deleted));
     }
 
     return fetchMessage.then(message => apiai.sendMessage(response, message));
@@ -71,9 +76,4 @@ exports.memo067 = functions.https.onRequest((request, response) => {
         return response.send('this is not memo067');
     }
     return repo.storeNote(db, username, text).then(result => response.send('ok'));
-});
-
-exports.twitterBot067 = functions.https.onRequest((request, response) => {
-    const client = new Twitter(privateFunctions.getTwitterClientParams()); 
-    return repo.tweetMemo067(db, client, '').then(result => response.send('ok'));
 });
