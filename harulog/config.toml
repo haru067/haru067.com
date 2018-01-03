@@ -5,6 +5,7 @@ title = "はるログ"
 theme = "mochi"
 
 [params]
+dateformat = "2006-01-02"
 
 [params.avatar]
 url = "https://haru067.com/img/me.png"
