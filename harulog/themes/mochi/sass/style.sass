@@ -3,6 +3,7 @@ $grey-dark: #707070
 $grey-darker: #444444
 $primary: $blue
 $family-sans-serif: "游ゴシック", YuGothic, "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif
+$footer-background-color: transparent
 
 @import "node_modules/bulma/bulma"
 
@@ -14,13 +15,13 @@ html
   background-color: transparent
 
 .section
-  padding: 40px 20px
+  padding: 2.5rem 1.25rem
 
 body, .title a, span.icon
   color: $grey-darker
 
-article+article
-  margin-top: 20px
+aside
+  margin-top: 2rem
 
 .content
   font-size: 1rem
@@ -29,7 +30,7 @@ article+article
     line-height: 1.25
     font-weight: bold
     &:not(:first-child)
-      margin-top: 80px
+      margin-top: 5rem
   h1+h2:not(:first-child),
   h2+h3:not(:first-child),
   h3+h4:not(:first-child),

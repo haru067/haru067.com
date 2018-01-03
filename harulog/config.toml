@@ -7,6 +7,7 @@ theme = "mochi"
 [params]
 dateformat = "2006-01-02"
 avatar = "https://haru067.com/img/me.png"
+home = "https://haru067.com/"
 
 [[params.social]]
 url = "https://github.com/haru067"
