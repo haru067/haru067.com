@@ -6,18 +6,44 @@
     <description>Recent content on はるログ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Sat, 21 Oct 2017 19:49:53 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 31 Dec 2017 16:43:18 +0900</lastBuildDate>
     
 	<atom:link href="https://haru067.com/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>曲面モニタ「DELL U3818DW」レビュー</title>
+      <link>https://haru067.com/blog/20171231-u3818dw/</link>
+      <pubDate>Sun, 31 Dec 2017 16:43:18 +0900</pubDate>
+      
+      <guid>https://haru067.com/blog/20171231-u3818dw/</guid>
+      <description>「ディスプレイ曲がってますよ」
+機運が高まってきたので DELLのクソデカ曲面ディスプレイを買った。  元々は23インチ、フルHDのモニタを家で使っていた。 かれこれ7年近く使用している。 それだけの月日が流れると、子供だったリンクは大人になるし、取り巻く環境も色々と変わって不満が出てくる。 大雑把に挙げると2つ。
+ 配線をシンプルにやっていきたい 作業領域をでかくしたい  まず、MBPのイキリ仕様に振り回されてUSB-Cのハブを生やしたり、 Windows-Mac間でマウス/キーボードを共有するためのハブを生やしたりするのがしんどくなってきた。 ディスプレイに全ての責任を追わせてドック的に使いたい。 あとは、一人暮らしを始めて作業スペースが増えたことで、物理的にも論理的にも大きいディスプレイが欲しくなってきた。
+まあ、要するに 「金を積んで全てを解決していくぞ！」 ということである。
+検討 ひとえにディスプレイといっても色々あるが、今回の要件はこんな感じ。
+ MBPと繋ぐことを考えるとUSB-Cは必須。かつUSB PDで充電したい（60W以上） ハブとして使うためのUSB3.0 フルHDからの脱却。QHDか、できれば4K 表面処理はノングレア（非光沢）一択 パネルはIPSがいいらしいのでIPSがいい アームが使える（VESAマウント） （多分使わないが）PBP、PIPがあるとなお良し  調べた結果わかったことは、USB-Cがあって、かつ電源供給がまともなものを探すと一気に候補が減る。 その中で色々吟味した結果、 「曲面ディスプレイ、そういうのもあるのか！」 と気づいてしまい、今に至る。
+他の選択肢としては、 EIZOはスペックに対して値段が高すぎで、 LGはスペックは良いが、ロゴがダサいのと、ACアダプタがクソデカで萎えた。 その他のメーカーは高額な買い物でマイナーなやつを買いたくないというのがあり、却下。
+そんなこんなでDELL U3818DWをポチる。お値段、14万。（14万！？）
+そして、着弾   38インチ。デカい
+・・・デカい！！！！
+  デカさのあまり家の玄関が終了した。もう外に出れないねえ
+  ケーブル類はHDMI、DisplayPortDi、USB-C、USB3.0、一通り揃ってる
+  背面のシンプルさが美しい。 端子類は下から刺すタイプ。省スペースだがそれゆえ刺しづらさはある。
+  アームはネジ無しでくっつく謎仕様。
+  ケーブルは穴に通していい感じに整理できる。
+  縁が薄くて良い。
+  話題のバーチャルユーチューバー達も1画面に収めることができる。強い。
+・・・もっと現実的な話をすると、 ツイッターにエディタにブラウザにDevToolsを表示してもまだ余裕がある。強い。 解像度の暴力である。 そしてこれが一本刺すだけで画面が映って、充電されるわ、マウス/キーボードが繋がるわ全て解決する。すごい。</description>
+    </item>
+    
+    <item>
       <title>helloworld</title>
-      <link>https://haru067.com/blog/post/20171021-helloworld/</link>
+      <link>https://haru067.com/blog/20171021-helloworld/</link>
       <pubDate>Sat, 21 Oct 2017 19:49:53 +0900</pubDate>
       
-      <guid>https://haru067.com/blog/post/20171021-helloworld/</guid>
-      <description>Introduction 特にはてなブログである必要はなさそうなのでharu067.com内部にブログを置くことにした、 各所に依存するよりgithubで一元管理したほうが楽そう</description>
+      <guid>https://haru067.com/blog/20171021-helloworld/</guid>
+      <description>気持ちになってきたのでhugoでブログを動かすことにします</description>
     </item>
     
   </channel>
