@@ -4,8 +4,10 @@
   <div class="container">
     {{ range sort .Paginator.Pages }}
     <article class="box">
-      <h2 class="subtitle is-7">{{ .Lastmod.Format ( .Site.Params.dateformat | default "January 2, 2006") }}</h2>
-      <h1 class="title is-4"><a href="{{ .Permalink }}">{{ .Title }}</a>{{ if .Draft }} ::Draft{{ end }}</h1>
+      <a href="{{ .Permalink }}">
+        <h2 class="subtitle is-7">{{ .Lastmod.Format ( .Site.Params.dateformat | default "January 2, 2006") }}</h2>
+        <h1 class="title is-4">{{ .Title }}{{ if .Draft }} ::Draft{{ end }}</h1>
+      </a>
     </article>
     {{ end }}
   </div>
