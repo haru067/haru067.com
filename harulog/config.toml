@@ -2,9 +2,12 @@ baseURL = "https://haru067.com/blog"
 publishDir = "../public/blog"
 languageCode = "ja-jp"
 title = "はるログ"
-theme = "hemingway"
+theme = "mochi"
 
 [params]
+
+[params.avatar]
+url = "https://haru067.com/img/me.png"
 
 [[params.social]]
 url = "https://github.com/haru067"
