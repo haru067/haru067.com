@@ -24,9 +24,16 @@ exports.validate = (request, response) => {
         console.warn('Invalid token');
         return response.status(400).send('Bad request');
     }
-    let receivedMessage = request.body.result.resolvedQuery;
+    let body = request.body;
+    let result = body && body.result;
+    let receivedMessage = result && result.resolvedQuery;
     if (!receivedMessage) {
         console.warn('Empty message');
+        return response.status(400).send('Bad request');
+    }
+    let lang = request.body.lang;
+    if (!lang) {
+        console.warn('Empty lang');
         return response.status(400).send('Bad request');
     }
     return null;
@@ -52,7 +59,7 @@ exports.fetchDefaultMessage = (request) => {
     }).then(res => res.json()).then(json => json.utt);
 };
 
-exports.getScheduleMessage = (request, schedule) => {
+exports.getScheduleMessage = (i18n, request, schedule) => {
     const user = request.get('user');
     console.log(schedule);
 
@@ -63,7 +70,7 @@ exports.getScheduleMessage = (request, schedule) => {
     let endTime = schedule.end_time;
 
     let time = moment.unix(startTime).format('H:mm') + ' - ' + moment.unix(endTime).format('H:mm');
-    let displayGameMode = getDisplayGameMode(gameMode);
+    let displayGameMode = getDisplayGameMode(i18n, gameMode);
     let text = `${displayGameMode}は${time}まで、${stageA}と${stageB}やな`;
     if (user == 'haru067') {
         text = `${stageA}と${stageB} (${time})`;
@@ -71,21 +78,21 @@ exports.getScheduleMessage = (request, schedule) => {
     return text;
 };
 
-exports.getNextScheduleMessage = (request, schedule) => {
+exports.getNextScheduleMessage = (i18n, request, schedule) => {
     if (!schedule) {
         return 'これはもうわからんね'
     }
     const user = request.get('user');
     console.log(schedule);
 
-    let rule = schedule.rule.name;
-    let stageA = schedule.stage_a.name;
-    let stageB = schedule.stage_b.name;
+    let rule = getDisplayRule(i18n, schedule.rule.key);
+    let stageA = getDisplayStageName(i18n, schedule.stage_a.id);
+    let stageB = getDisplayStageName(i18n, schedule.stage_b.id);
     let startTime = schedule.start_time;
     let endTime = schedule.end_time;
 
     let time = moment.unix(startTime).format('H:mm') + ' - ' + moment.unix(endTime).format('H:mm');
-    let text = `次の${rule}は${time}で、${stageA}と${stageB}`;
+    let text = i18n.__('RESPONSE_NEXT_STAGE', rule, time, stageA, stageB);
     return text;
 };
 
@@ -104,8 +111,29 @@ exports.getMemo067DeleteMessage = (request, deleted) => {
     return message;
 };
 
-function getDisplayGameMode(rule) {
-    if (rule == 'gachi') return 'ガチマ';
-    if (rule == 'league') return 'リグマ';
-    if (rule == 'regular') return 'ナワバリ';
+function getDisplayStageName(i18n, stage_id) {
+    let key = `STAGE_${stage_id}`;
+
+    let text = null;
+    try { text = i18n.__(key); }
+    catch (error) { text = i18n.__('STAGE_1');}
+
+    return text;
+}
+
+function getDisplayRule(i18n, rule) {
+    let key = 'rainmaker';
+    if (rule == 'rainmaker') key = 'RAINMAKER';
+    if (rule == 'splat_zones') key = 'SPLAT_ZONES';
+    if (rule == 'tower_control') key = 'TOWER_CONTROL';
+    if (rule == 'clam_blitz') key = 'CLAM_BLITZ';
+    return i18n.__(key);
+}
+
+function getDisplayGameMode(i18n, gameMode) {
+    let key = 'regular';
+    if (gameMode == 'gachi') key = 'GACHI_SHORT';
+    if (gameMode == 'league') key = 'LEAGUE_SHORT';
+    if (gameMode == 'regular') key = 'REGULAR_SHORT';
+    return i18n.__(key);
 }

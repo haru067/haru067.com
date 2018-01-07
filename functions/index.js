@@ -1,3 +1,4 @@
+const i18n = require('i18n');
 const Twitter = require('twitter');
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
@@ -37,14 +38,21 @@ exports.apiai = functions.https.onRequest((request, response) => {
     let error = apiai.validate(request, response);
     if (error) return error;
 
+    i18n.configure({
+        locales: ['en', 'jp'],
+        directory: __dirname + '/locales',
+        defaultLocale: 'en'
+      });
+    i18n.setLocale(request.body.lang);
+
     let type = apiai.getType(request);
     let fetchMessage = apiai.fetchDefaultMessage(request);
     if (type == 'splatoon_schedule') {
         let gameMode = apiai.getGameMode(request);
-        fetchMessage = repo.getCurrentSchedulePromise(db, gameMode).then(schedule => apiai.getScheduleMessage(request, schedule));
+        fetchMessage = repo.getCurrentSchedulePromise(db, gameMode).then(schedule => apiai.getScheduleMessage(i18n, request, schedule));
     } else if (type == 'splatoon_search') {
         let rule = apiai.getRule(request);
-        fetchMessage = repo.queryNextSchedule(db, rule).then(schedule => apiai.getNextScheduleMessage(request, schedule));
+        fetchMessage = repo.queryNextSchedule(db, rule).then(schedule => apiai.getNextScheduleMessage(i18n, request, schedule));
     } else if (type == 'list_memo067') {
         fetchMessage = repo.listMemo067(db).then(list => apiai.getMemo067ListMessage(request, list));
     } else if (type == 'delete_memo067') {
