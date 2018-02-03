@@ -6,8 +6,5 @@
 <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/style.css">
 <link rel="preload" as="style" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" onload="this.rel='stylesheet'">
 {{ range .Site.Params.favicon }}
-    <link rel="icon" type="image/png" sizes="{{ .size }}" href="{{ .url }}">
-{{ end }}
-{{ if .Site.Params.manifest }}
-    <link rel="manifest" href="{{ .Site.Params.manifest }}">
-{{ end }}
+<link rel="icon" type="image/png" sizes="{{ .size }}" href="{{ .url }}">{{ end }}
+{{ if .Site.Params.manifest }}<link rel="manifest" href="{{ .Site.Params.manifest }}">{{ end }}
