@@ -1,0 +1,25 @@
+{
+  "name": "memo067",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^2.5.13",
+    "vue-class-component": "^6.1.2",
+    "vue-property-decorator": "^6.0.0"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.9",
+    "ts-loader": "^3.5.0",
+    "typescript": "^2.7.1",
+    "vue-loader": "^14.1.1",
+    "vue-template-compiler": "^2.5.13",
+    "webpack": "^3.11.0"
+  }
+}

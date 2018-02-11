@@ -9,4 +9,5 @@ private.js
 *.map
 
 node_modules/
+dist/
 ignored/
