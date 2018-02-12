@@ -1,7 +1,7 @@
 import Vue from "vue";
 import HeaderComponent from "./components/Header.vue";
 import BodyComponent from "./components/Body.vue";
-import HelloComponent from "./components/Hello.vue";
+import FooterComponent from "./components/Footer.vue";
 
 declare function require(x: string): any;
 require('./assets/main.scss');
@@ -16,8 +16,8 @@ let v = new Vue({
     </div>
     `,
     components: {
-        HelloComponent,
         HeaderComponent,
         BodyComponent,
+        FooterComponent,
     }
 });
