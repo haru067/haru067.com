@@ -1,4 +1,5 @@
 import Vue from "vue";
+import HeaderComponent from "./components/Header.vue";
 import HelloComponent from "./components/Hello.vue";
 
 declare function require(x: string): any;
@@ -8,16 +9,14 @@ let v = new Vue({
     el: "#app",
     template: `
     <div>
-        <h1 class="title">memoです</h1>
-        <a class="button">
-  Button
-</a>
+        <header-component />
         Name: <input v-model="name" type="text">
         <hello-component :name="name" :initialEnthusiasm="5" />
     </div>
     `,
     data: { name: "World" },
     components: {
-        HelloComponent
+        HelloComponent,
+        HeaderComponent
     }
 });

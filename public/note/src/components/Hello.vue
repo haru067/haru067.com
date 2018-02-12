@@ -1,5 +1,3 @@
-<!-- src/components/Hello.vue -->
-
 <template>
     <div>
         <div class="greeting">Hello {{name}}{{exclamationMarks}}</div>
