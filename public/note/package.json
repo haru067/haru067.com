@@ -11,9 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "bulma": "^0.6.2",
+    "firebase": "^4.9.1",
     "vue": "^2.5.13",
     "vue-class-component": "^6.1.2",
-    "vue-property-decorator": "^6.0.0"
+    "vue-property-decorator": "^6.0.0",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "css-loader": "^0.28.9",
