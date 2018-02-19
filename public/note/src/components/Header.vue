@@ -3,10 +3,12 @@
     <div class="navbar-brand">
       <h1 class="title">memo067</h1>
     </div>
-    <div class="navbar-end">
-      <a v-if="!hasLogin" class="navbar-item">ログイン</a>
-      <a v-if="!hasLogin" class="navbar-item">新規登録</a>
-      <a v-if="hasLogin" class="navbar-item">ログアウト</a>
+    <div v-if="hasLogin" class="navbar-end">
+      <a class="navbar-item">ログアウト</a>
+    </div>
+    <div v-else class="navbar-end">
+      <a class="navbar-item">ログイン</a>
+      <a class="navbar-item">新規登録</a>
     </div>
   </nav>
 </template>
