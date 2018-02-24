@@ -1,0 +1,16 @@
+{{ $id := .Get 0 }}
+<div id="tweet{{$id}}">
+  <script type="text/javascript">
+    function polling(callback) {
+      if (typeof twttr !== "undefined") {
+        callback();
+      } else {
+        setTimeout(function () { polling(callback) }, 100);
+      }
+    }
+
+    polling(function () {
+      twttr.widgets.createTweet('{{$id}}', document.getElementById('tweet{{$id}}'));
+    });
+  </script>
+</div>
