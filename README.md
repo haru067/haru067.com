@@ -1,2 +1,6 @@
-# haru067.com
-[homepage](https://haru067.com)です
+https://haru067.com
+
+# Overview
+* /functions - CloudFunctions
+* /harulog - the blog powered by Hugo
+* /public - html files for Firebase hosting
