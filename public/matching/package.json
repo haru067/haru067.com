@@ -1,0 +1,35 @@
+{
+  "name": "matching",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "webpack --mode prodution",
+    "build": "webpack --mode development",
+    "start": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bulma": "^0.6.2",
+    "vue": "^2.5.13",
+    "vue-class-component": "^6.1.2",
+    "vue-property-decorator": "^6.0.0",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.9",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.20.1",
+    "ts-loader": "^4.0.1",
+    "typescript": "^2.7.1",
+    "vue-loader": "^14.1.1",
+    "vue-template-compiler": "^2.5.13",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.11",
+    "webpack-dev-server": "^3.1.1"
+  }
+}
