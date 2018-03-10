@@ -4,28 +4,24 @@ import { config, Config } from './config'
 
 Vue.use(Vuex)
 
-type User = string | null;
-interface State { user: User, config: Config };
-
+interface State { participants: string[], config: Config };
 const state: State = {
-    user: null,
+    participants: [],
     config: config,
 };
 
 const mutations = {
-    updateUser(state: State, user: User) {
-        console.log('user updated:');
-        console.log(user);
-        state.user = user;
+    updateParticipants(state: State, participants: string[]) {
+        state.participants = participants;
     }
 }
 
 const actions = {
-    updateUser: ({ commit }: any, user: User) => commit('updateUser', user),
+    updateParticipants: ({ commit }: any, participants: string[]) => commit('updateParticipants', participants),
 }
-  
+
 const getters = {
-    user: (state: State) => state.user,
+    participants: (state: State) => state.participants,
 }
 
 export default new Vuex.Store({
@@ -33,4 +29,4 @@ export default new Vuex.Store({
     getters,
     actions,
     mutations
-  })
+});
