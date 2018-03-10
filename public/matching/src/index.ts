@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Vuex, { mapGetters, mapActions} from 'vuex'
+import Vuex, { mapGetters, mapActions } from 'vuex'
 import store from './store'
 import HeaderComponent from "./components/Header.vue";
 import BodyComponent from "./components/Body.vue";

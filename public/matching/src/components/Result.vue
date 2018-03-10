@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    adadff
+    This is the result.
   </section>
 </template>
 
@@ -8,7 +8,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component
-export default class Body extends Vue {
+export default class Result extends Vue {
 }
 </script>
 <style>

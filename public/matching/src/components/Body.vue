@@ -1,18 +1,20 @@
+
 <template>
-  <todo-list />
+  <section class="section">
+    <editor />
+    <result />
+  </section>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import TodoList from "./TodoList.vue";
+import Editor from "./Editor.vue"
+import Result from "./Result.vue"
 
 @Component({
-  components: {TodoList},
+  components: {Editor, Result},
 })
 export default class Body extends Vue {
-    get hasLogin(): boolean {
-        return this.$store.getters.user ? true : false;
-    }
 }
 </script>
 <style>

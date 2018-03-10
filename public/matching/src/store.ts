@@ -1,13 +1,15 @@
 import Vue from "vue";
 import Vuex from 'vuex'
+import { config, Config } from './config'
 
 Vue.use(Vuex)
 
 type User = string | null;
-interface State { user: User };
+interface State { user: User, config: Config };
 
 const state: State = {
-    user: null
+    user: null,
+    config: config,
 };
 
 const mutations = {

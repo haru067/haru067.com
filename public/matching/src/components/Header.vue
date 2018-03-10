@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar section" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <h1 class="title">Matching</h1>
+      <h1 class="title">aa{{ title }}</h1>
     </div>
   </nav>
 </template>
@@ -11,6 +11,9 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class Header extends Vue {
+  get title(): string {
+    return this.$store.state.config.title || "";
+  }
 }
 </script>
 <style>
