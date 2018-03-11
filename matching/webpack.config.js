@@ -6,7 +6,7 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, '../public/matching/dist'),
-    publicPath: '../public/matching/dist/',
+    publicPath: './dist/',
     filename: 'build.js'
   },
   module: {
