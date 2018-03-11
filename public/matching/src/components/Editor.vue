@@ -33,6 +33,7 @@ export default class Editor extends Vue {
 
   startMatching() {
     console.log('clicked');
+    this.store.dispatch("allocateParticipants");
   }
 }
 </script>

@@ -1,15 +1,14 @@
 <template>
   <section class="section">
-    <p>{{ participants }}</p>
     <p>{{ groupSize }}</p>
     <p>{{ numGroups }}</p>
     <div id="contents" class="columns">
-      <div class="column" v-for="n in numGroups" :key="n">
+      <div class="column" v-for="group in groups" :key="group.id">
         <div class="box">
-          <h2 class="is-size-4">Group {{ n }}</h2>
+          <h2 class="is-size-4">Group{{ group.id }}</h2>
           <ul>
-            <li v-for="participant in groupParticipants(n - 1)" :key="participant">
-              {{ participant }}
+            <li v-for="participant in group.participants" :key="participant.id">
+              {{ participant.name }}
             </li>
           </ul>
         </div>
@@ -20,30 +19,19 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import { Participant, Group } from '../entity'
 
 @Component
 export default class Result extends Vue {
   readonly store = this.$store;
 
-  get participants(): string {
-    return this.store.getters.participants.reduce((a: string, b: string) => `${a}\n${b}`, "empty");
+  get groups(): Group[] {
+    return this.store.getters.groups;
   }
 
   // n user per group
   get groupSize(): number {
     return this.store.getters.groupSize;
-  }
-  
-  get numGroups(): number {
-    return Math.ceil(this.store.getters.participants.length / this.store.getters.groupSize);
-  }
-  
-  groupParticipants(groupId: number): string[] {
-    // from: inclusive, to: exclusive
-    const from = groupId * this.store.getters.groupSize;
-    const to = (groupId + 1) * this.store.getters.groupSize;
-
-    return this.store.getters.participants.slice(from, to);
   }
 }
 </script>
