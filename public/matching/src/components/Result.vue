@@ -23,7 +23,7 @@ import { Participant, Group } from '../entity'
 export default class Result extends Vue {
   readonly store = this.$store;
   displayGroups: Group[] = []
-  intervalId = -1;
+  timerIds: number[] = [];
 
   get groups(): Group[] {
     return this.store.getters.groups;
@@ -36,7 +36,8 @@ export default class Result extends Vue {
 
   @Watch("groups")
   onGroupsUpdate(groups: Group[], old: Group[]) {
-    console.log('update');
+    this.timerIds.map((id) => clearTimeout(id));
+    this.timerIds = [];
     this.displayGroups = [];
     for (const group of groups) {
       const dg = (<any>Object).assign({}, group);
@@ -47,16 +48,15 @@ export default class Result extends Vue {
     for (let i = 0; i < groups.length; i++) {
       const dg = this.displayGroups[i];
       for (let j = 0; j < groups[i].participants.length; j++) {
-        const callback = () => { 
+        const callback = () => {
           dg.participants.push(groups[i].participants[j]);
           this.displayGroups[i] = dg;
         };
         const t = this.store.getters.config.animation.showUpInterval;
         const interval = t * (i * this.groupSize) + t * j;
-        setTimeout(callback, interval);
+        this.timerIds.push(setTimeout(callback, interval));
       }
     }
-        console.log(this.store.getters.config);
   }
 
   displayGroupName(group: Group) {

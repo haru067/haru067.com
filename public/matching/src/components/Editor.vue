@@ -1,8 +1,10 @@
 <template>
   <section class="selection">
     <textarea class="textarea" v-model="participants"/>
-    <button class="button is-link" @click="startMatching">Start</button>
     <input class="input" type="number" name="number" v-model="groupSize" min="1" max="4">
+    <div class="control">
+      <button class="button is-link" @click="startMatching">Start</button>
+    </div>
   </section>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar section" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <h1 class="title">aa{{ title }}</h1>
+      <h1 class="title">{{ title }}</h1>
     </div>
   </nav>
 </template>
