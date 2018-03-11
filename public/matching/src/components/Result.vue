@@ -3,13 +3,16 @@
     <p>{{ participants }}</p>
     <p>{{ groupSize }}</p>
     <p>{{ numGroups }}</p>
-    <div id="contents">
-      <div class="box" v-for="n in numGroups" :key="n">
-        <ul>
-          <li v-for="participant in groupParticipants(n - 1)" :key="participant">
-            {{ participant }}
-          </li>
-        </ul>
+    <div id="contents" class="columns">
+      <div class="column" v-for="n in numGroups" :key="n">
+        <div class="box">
+          <h2 class="is-size-4">Group {{ n }}</h2>
+          <ul>
+            <li v-for="participant in groupParticipants(n - 1)" :key="participant">
+              {{ participant }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -28,7 +31,6 @@ export default class Result extends Vue {
 
   // n user per group
   get groupSize(): number {
-    console.log(this.store.getters.groupSize);
     return this.store.getters.groupSize;
   }
   
