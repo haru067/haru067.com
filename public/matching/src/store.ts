@@ -37,7 +37,8 @@ const mutations = {
         const numGroups = Math.ceil(state.participants.length / state.groupSize);
         for (let i = 0; i < numGroups; i++) {
             const id = i;
-            const name = `Group ${i + 1}`;
+            const suffix = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
+            const name = `Group ${suffix.charAt(i % suffix.length)}`; // Group0 -> Group A, Group1 -> Group B, ...
             let participants = [];
             for (let j = 0; j < state.groupSize; j++) {
                 const added = shuffled[i * state.groupSize + j];
@@ -59,6 +60,7 @@ const getters = {
     participants: (state: State) => state.participants,
     groupSize: (state: State) => state.groupSize,
     groups: (state: State) => state.groups,
+    config: (state: State) => state.config,
 }
 
 export default new Vuex.Store({
