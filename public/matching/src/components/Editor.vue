@@ -2,7 +2,7 @@
   <section class="selection">
     <textarea class="textarea" v-model="participants"/>
     <button class="button is-link" @click="startMatching">Start</button>
-    <input class="input" type="number" name="number" value="4" min="2" max="4">
+    <input class="input" type="number" name="number" v-model="groupSize" min="1" max="4">
   </section>
 </template>
 
@@ -12,7 +12,8 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class Editor extends Vue {
   readonly store = this.$store;
-  participants = "";
+  participants: string = "";
+  groupSize: string = "4";
 
   get hasLogin(): boolean {
       return this.$store.getters.user ? true : false;
@@ -24,7 +25,14 @@ export default class Editor extends Vue {
     this.store.dispatch("updateParticipants", list);
   }
 
+  @Watch("groupSize")
+  onEditGroupSize(v: string, old: string)  {
+    const groupSize = parseInt(v);
+    this.store.dispatch("updateGroupSize", groupSize);
+  }
+
   startMatching() {
+    console.log('clicked');
   }
 }
 </script>
