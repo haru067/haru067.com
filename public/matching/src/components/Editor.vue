@@ -1,7 +1,7 @@
 <template>
   <section class="selection">
     <div class="field">
-      <label class="label">List</label>
+      <label class="label">List (type names line by line)</label>
       <textarea class="textarea" v-model="participants"/>
     </div>
     <div class="field">
