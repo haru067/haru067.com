@@ -11,3 +11,4 @@ private.js
 node_modules/
 ignored/
 public/blog/
+dist/
