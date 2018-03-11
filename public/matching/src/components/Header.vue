@@ -1,9 +1,11 @@
 <template>
-  <nav class="navbar section" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <h1 class="title">{{ title }}</h1>
-    </div>
-  </nav>
+  <header class="section">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <h1 class="title">{{ title }}</h1>
+      </div>
+    </nav>
+  </header>
 </template>
 
 <script lang="ts">
@@ -16,8 +18,8 @@ export default class Header extends Vue {
   }
 }
 </script>
-<style>
-header {
-  background-color: antiquewhite;
+<style scoped>
+header.section {
+  padding-bottom: 24px;
 }
 </style>

@@ -1,9 +1,17 @@
 <template>
   <section class="selection">
-    <textarea class="textarea" v-model="participants"/>
-    <input class="input" type="number" name="number" v-model="groupSize" min="1" max="4">
-    <div class="control">
-      <button class="button is-link" @click="startMatching">Start</button>
+    <div class="field">
+      <label class="label">List</label>
+      <textarea class="textarea" v-model="participants"/>
+    </div>
+    <div class="field">
+      <label class="label">Group size</label>
+      <input class="input" type="number" name="number" v-model="groupSize" min="1" max="4">
+    </div>
+    <div class="field">
+      <div class="control">
+        <button class="button is-link" @click="startMatching">Start</button>
+      </div>
     </div>
   </section>
 </template>
@@ -38,5 +46,5 @@ export default class Editor extends Vue {
   }
 }
 </script>
-<style>
+<style scoped>
 </style>

@@ -1,6 +1,6 @@
 
 <template>
-  <section class="section">
+  <section class="section root">
     <editor />
     <result />
   </section>
@@ -17,5 +17,9 @@ import Result from "./Result.vue"
 export default class Body extends Vue {
 }
 </script>
-<style>
+<style scoped>
+.root {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
 </style>

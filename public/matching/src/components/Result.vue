@@ -88,5 +88,5 @@ export default class Result extends Vue {
   }
 }
 </script>
-<style>
+<style scoped>
 </style>
