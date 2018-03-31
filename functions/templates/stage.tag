@@ -22,6 +22,7 @@
                 13: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F13.jpg?alt=media&token=51a672eb-3dad-4641-91eb-48c91076d8d2",
                 14: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F14.jpg?alt=media&token=6835de06-7f62-45f1-90f1-0444083c4e81",
                 15: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F15.jpg?alt=media&token=3e4c9024-00a1-4bd1-bb7e-f35cd046ad2f",
+                17: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F17.jpg?alt=media&token=5e121c69-ba4e-4ad8-b234-d982e2075dbe",
                 18: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F18.jpg?alt=media&token=817f07bf-8a9a-40c8-a2b9-338f401283ee",
             }
             return map[id];
