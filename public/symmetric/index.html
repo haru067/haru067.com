@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <title>対称画像ジェネレーター</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+    <script>
+        var rate = 0.5; // 50%
+        var source = null;
+        var fileName = 'sample.png';
+
+        function saveCanvas(id) {
+            var canvas = document.getElementById(id);
+            var dataUrl = canvas.toDataURL('image/png');
+            var blob = toBlob(dataUrl);
+            saveBlob(blob, fileName);
+        }
+
+        function toBlob(dataUrl) {
+            var tmp = dataUrl.split(',');
+            var data = atob(tmp[1]);
+            var mime = tmp[0].split(':')[1].split(';')[0];
+            var buf = new Uint8Array(data.length);
+            for (var i = 0; i < data.length; i++) {
+                buf[i] = data.charCodeAt(i);
+            }
+            var blob = new Blob([buf], { type: mime });
+            return blob;
+        }
+
+        function saveBlob(blob, fileName) {
+            var url = (window.URL || window.webkitURL);
+            var dataUrl = url.createObjectURL(blob);
+            var event = document.createEvent('MouseEvents');
+            event.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            var a = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+            a.href = dataUrl;
+            a.download = fileName;
+            a.dispatchEvent(event);
+        }
+
+        function draw(canvasName, source, reverse) {
+            var canvas = document.getElementById(canvasName);
+            if (!canvas || !canvas.getContext) { return false; }
+            var ctx = canvas.getContext('2d');
+            var img = new Image();
+            img.src = source;
+            img.onload = function () {
+                var w = img.width;
+                var h = img.height;
+
+                var canvas = document.getElementById(canvasName);
+                canvas.setAttribute('height', h);
+                if (reverse) {
+                    canvas.setAttribute('width', w * (1 - rate) * 2);
+                    ctx.drawImage(img, w * rate, 0, w * (1 - rate), h, w * (1 - rate), 0, w * (1 - rate), h);
+                    ctx.scale(-1, 1);
+                    ctx.drawImage(img, w * rate, 0, w * (1 - rate), h, -w * (1 - rate), 0, w * (1 - rate), h);
+                } else {
+                    canvas.setAttribute('width', w * rate * 2);
+                    ctx.drawImage(img, 0, 0, w * rate, h, 0, 0, w * rate, h);
+                    ctx.scale(-1, 1);
+                    ctx.drawImage(img, 0, 0, w * rate, h, -w * (rate * 2), 0, w * rate, h);
+                }
+            }
+        }
+
+        function updateCanvas() {
+            rate = document.getElementById('range').value / 100;
+            if (!source) return;
+            draw('c1', source);
+            draw('c2', source, true);
+        }
+
+        function onUploadClick() {
+            document.querySelector('input[type="file"]').click();
+        }
+
+        function copyToClipboard() {
+            document.getElementById('tweet').select();
+            var result = document.execCommand('copy');
+            if (result) {
+                document.getElementById('notification').style.visibility = 'visible';
+                setTimeout(function () {
+                    document.getElementById('notification').style.visibility = 'hidden';
+                }, 600);
+            }
+            return result;
+        }
+
+        function updateImage(src, name) {
+            // Update global variables
+            source = src;
+            fileName = name;
+
+            var img = document.getElementById('original-img');
+            img.setAttribute('src', source);
+            img.setAttribute('title', name);
+            img.onload = function () {
+                console.log("Image loaded: name=" + name + ", w=" + img.offsetWidth + ", h=" + img.offsetHeight);
+                var slider = document.getElementById('range');
+                var width = img.offsetWidth;
+                slider.setAttribute('style', 'width:' + width + 'px !important;');
+            };
+
+            draw('c1', source);
+            draw('c2', source, true);
+        }
+
+        function loadImageFile(file) {
+            if (!file) return false;
+
+            var reader = new FileReader();
+            if (file.type.indexOf("image") < 0) {
+                alert('画像以外はサポートしていない');
+                return false;
+            }
+            reader.onload = (function (file) {
+                return function (e) { updateImage(e.target.result, file.name) };
+            })(file);
+            reader.readAsDataURL(file);
+            return true;
+        }
+
+        function setupUploadArea() {
+            var counter = 0;
+            var uploadArea = document.getElementById('upload-area');
+            uploadArea.addEventListener('dragenter', function (e) {
+                counter++;
+                uploadArea.style.borderColor = '#007bff';
+                uploadArea.style.borderWidth = '3px';
+            });
+            uploadArea.addEventListener('dragleave', function (e) {
+                counter--;
+                if (counter == 0) {
+                    uploadArea.style.borderColor = '#6c757d';
+                    uploadArea.style.borderWidth = '1px';
+                }
+            });
+            uploadArea.addEventListener('dragover', function (e) {
+                e.preventDefault();
+            });
+            uploadArea.addEventListener('drop', function (e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#6c757d';
+                uploadArea.style.borderWidth = '1px';
+
+                var files = e.dataTransfer.files; // FileList object.
+                loadImageFile(files[0]);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            setupUploadArea();
+            document.querySelector('input[type="file"]').addEventListener('change', function (e) {
+                loadImageFile(e.target.files[0]);
+            });
+            var src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAG1BMVEX///8AAABy3Pf759P7p9Kw6Pb51bktq/8AWJOHqRgkAAABAUlEQVR4nO3XSwrDMAwE0CT93v/EjaEDg5BsS3E3ZWbT1Lb0DCYJ2V5B3k72Mzzf/mMu6rMJKAPInoiAGuBNcNEjEQ8TkAeyTXuYgDywqjkjAsZAS+Wmmo2AeWC2ILsRAWMgU3Cc4fUztQJqQFQIAPMC1gDe4Ah4nuFfAQL+EbAPNYwxcKP0EAF5wB7kQfGaC1gL2CYWiYAeImAOwCSaeMV2PFon4DeAl2idRQSMgTaAD0ELjDDv4FsPATXAQzLATmFEwDVgBvFQATmAUwXu36BewHUg8+Lh8AbxAhNQA9C8HVzUyHvQoZY3KaAGzB4yGqOWEVwLyAEe0otXYyNgCHwAGXN+Ycd7s9QAAAAASUVORK5CYII=';
+            updateImage(src, fileName);
+        });
+    </script>
+</head>
+
+<body>
+    <main class="container">
+        <h1 class="mt-5">対称画像ジェネレーター</h1>
+        <p class="lead">
+            <!-- ここに書く内容がないよ・・・ -->
+        </p>
+        <form class="invisible">
+            <input class="invisible" type="file" name="file" accept="image/*">
+        </form>
+        <div class="row">
+            <div class="col">
+                <div id="upload-area" class="p-5 h-100 d-flex justify-content-center align-items-center text-center" style="border: #6c757d 1px solid;">
+                    <div>
+                        <p>ここに画像をドラッグ</p>
+                        <p>もしくは</p>
+                        <button type="button" class="btn btn-outline-secondary" onclick="onUploadClick()">
+                            画像を選択
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <h3>元画像</h3>
+                <div id="original" class="p-4 border border-secondary text-center" style="display: inline-block">
+                    <img id="original-img" class="mw-100" style="max-height: 300px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAG1BMVEX///8AAABy3Pf759P7p9Kw6Pb51bktq/8AWJOHqRgkAAABAUlEQVR4nO3XSwrDMAwE0CT93v/EjaEDg5BsS3E3ZWbT1Lb0DCYJ2V5B3k72Mzzf/mMu6rMJKAPInoiAGuBNcNEjEQ8TkAeyTXuYgDywqjkjAsZAS+Wmmo2AeWC2ILsRAWMgU3Cc4fUztQJqQFQIAPMC1gDe4Ah4nuFfAQL+EbAPNYwxcKP0EAF5wB7kQfGaC1gL2CYWiYAeImAOwCSaeMV2PFon4DeAl2idRQSMgTaAD0ELjDDv4FsPATXAQzLATmFEwDVgBvFQATmAUwXu36BewHUg8+Lh8AbxAhNQA9C8HVzUyHvQoZY3KaAGzB4yGqOWEVwLyAEe0otXYyNgCHwAGXN+Ycd7s9QAAAAASUVORK5CYII=">
+                    <div class="mt-4">
+                        <input id="range" type="range" min="0" max="100" oninput="updateCanvas()" onchange="updateCanvas()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="mt-5">反転結果</h3>
+        <div class="d-flex">
+            <div id="edit1" class="mr-1 p-2 text-center border border-primary">
+                <div>
+                    <canvas id="c1" class="mw-100" style="max-height: 500px;" />
+                </div>
+                <button class="btn btn-primary" onclick="saveCanvas('c1', 'png');">保存</button>
+            </div>
+            <div id="edit2" class="p-2 text-center border border-danger">
+                <div>
+                    <canvas id="c2" class="mw-100" style="max-height: 500px;" />
+                </div>
+                <button class="btn btn-primary" onclick="saveCanvas('c2', 'png');">保存</button>
+            </div>
+        </div>
+
+        <h3 class="mt-5">共有</h3>
+        <p>
+            <iframe src="https://platform.twitter.com/widgets/tweet_button.html?size=l&url=https%3A%2F%2Fharu067.com%2Fsymmetric%2F&text=%E5%AF%BE%E8%B1%A1%E7%94%BB%E5%83%8F%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AC%E3%83%BC%E3%82%BF%E3%83%BC"
+                width="140" height="28" title="Twitter Tweet Button" style="border: 0; overflow: hidden;">
+            </iframe>
+        </p>
+        <p>
+            <s>画像アップロードを実装するのが面倒だったので</s>
+            <br>画像をツイートしたい場合は各自画像をダウンロードして、Twitterからツイートしてください。
+            <br>テキストは以下をコピペすると良い感じです。</p>
+        <textarea id="tweet" class="form-control mb-2" rows="2">？？？？？？ https://haru067.com/symmetric/ #対称画像ジェネレーター</textarea>
+        <button class="btn btn-primary" onclick="copyToClipboard()">コピー</button>
+        <span id="notification" class="badge badge-success" style="visibility: hidden;">
+            コピーしました！
+        </span>
+        <p class="mt-3">
+            <a href="https://twitter.com/">twitter.com</a>
+        </p>
+
+        <h3 class="mt-5">FAQ</h3>
+        <p>
+            Q: Firefoxで動かない
+            <br> A: うるせ〜〜〜!!!!!!
+        </p>
+        <p>Q: Safariで動かない
+            <br> A: 知らね〜〜〜〜！！！！</p>
+        <p>Q: スマホで動かない
+            <br> A:
+            <pre>
+FANALFANT
+      ASY
+</pre>
+        </p>
+
+        <h3 class="mt-5">連絡先</h3>
+        <p>
+            <a href="https://twitter.com/haru067">@haru067</a>
+        </p>
+    </main>
+</body>
+
+</html>
