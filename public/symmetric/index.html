@@ -15,7 +15,8 @@
         });
     </script>
     <script>
-        var rate = 0.5; // 50%
+        var TWEET_FILE_SIZE_LIMIT = 2000000 // 2MB
+        var rate = sessionStorage.getItem('rate') || 0.5; // 50%
         var source = null;
         var fileName = 'sample.png';
 
@@ -76,7 +77,9 @@
         }
 
         function updateCanvas() {
-            rate = document.getElementById('range').value / 100;
+            rate = document.getElementById('range').value / 100; // global
+            sessionStorage.setItem('rate', rate);
+
             if (!source) return;
             draw('c1', source);
             draw('c2', source, true);
@@ -162,6 +165,21 @@
         }
 
         function signIn(target) {
+            // Save edited image in advance
+            if (!target) {
+                return;
+            }
+            // TODO validate image size
+            var canvas = document.getElementById(target);
+            var raw = toBlob(canvas.toDataURL('image/jpeg'));
+            var quality = 1;
+
+            console.log('Original file size: ' + Math.floor(raw['size'] / 1000) + 'KB');
+            if (raw['size'] > TWEET_FILE_SIZE_LIMIT) {
+                quality = TWEET_FILE_SIZE_LIMIT / raw['size'];
+                var compressed = toBlob(canvas.toDataURL('image/jpeg', quality));
+            }
+
             var provider = new firebase.auth.TwitterAuthProvider();
             firebase.auth().signInWithRedirect(provider);
         }
@@ -172,8 +190,7 @@
                 loadImageFile(e.target.files[0]);
             });
 
-            var src = sessionStorage.getItem('original');
-            src = src ? src : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAG1BMVEX///8AAABy3Pf759P7p9Kw6Pb51bktq/8AWJOHqRgkAAABAUlEQVR4nO3XSwrDMAwE0CT93v/EjaEDg5BsS3E3ZWbT1Lb0DCYJ2V5B3k72Mzzf/mMu6rMJKAPInoiAGuBNcNEjEQ8TkAeyTXuYgDywqjkjAsZAS+Wmmo2AeWC2ILsRAWMgU3Cc4fUztQJqQFQIAPMC1gDe4Ah4nuFfAQL+EbAPNYwxcKP0EAF5wB7kQfGaC1gL2CYWiYAeImAOwCSaeMV2PFon4DeAl2idRQSMgTaAD0ELjDDv4FsPATXAQzLATmFEwDVgBvFQATmAUwXu36BewHUg8+Lh8AbxAhNQA9C8HVzUyHvQoZY3KaAGzB4yGqOWEVwLyAEe0otXYyNgCHwAGXN+Ycd7s9QAAAAASUVORK5CYII=';
+            var src = sessionStorage.getItem('original') || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAG1BMVEX///8AAABy3Pf759P7p9Kw6Pb51bktq/8AWJOHqRgkAAABAUlEQVR4nO3XSwrDMAwE0CT93v/EjaEDg5BsS3E3ZWbT1Lb0DCYJ2V5B3k72Mzzf/mMu6rMJKAPInoiAGuBNcNEjEQ8TkAeyTXuYgDywqjkjAsZAS+Wmmo2AeWC2ILsRAWMgU3Cc4fUztQJqQFQIAPMC1gDe4Ah4nuFfAQL+EbAPNYwxcKP0EAF5wB7kQfGaC1gL2CYWiYAeImAOwCSaeMV2PFon4DeAl2idRQSMgTaAD0ELjDDv4FsPATXAQzLATmFEwDVgBvFQATmAUwXu36BewHUg8+Lh8AbxAhNQA9C8HVzUyHvQoZY3KaAGzB4yGqOWEVwLyAEe0otXYyNgCHwAGXN+Ycd7s9QAAAAASUVORK5CYII=';
             updateImage(src, fileName);
 
             // Twitter callback
