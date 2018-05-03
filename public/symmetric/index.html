@@ -160,6 +160,11 @@
             });
         }
 
+        function tweet(target) {
+            var provider = new firebase.auth.TwitterAuthProvider();
+            firebase.auth().signInWithRedirect(provider);
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             setupUploadArea();
             document.querySelector('input[type="file"]').addEventListener('change', function (e) {
@@ -167,6 +172,29 @@
             });
             var src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAG1BMVEX///8AAABy3Pf759P7p9Kw6Pb51bktq/8AWJOHqRgkAAABAUlEQVR4nO3XSwrDMAwE0CT93v/EjaEDg5BsS3E3ZWbT1Lb0DCYJ2V5B3k72Mzzf/mMu6rMJKAPInoiAGuBNcNEjEQ8TkAeyTXuYgDywqjkjAsZAS+Wmmo2AeWC2ILsRAWMgU3Cc4fUztQJqQFQIAPMC1gDe4Ah4nuFfAQL+EbAPNYwxcKP0EAF5wB7kQfGaC1gL2CYWiYAeImAOwCSaeMV2PFon4DeAl2idRQSMgTaAD0ELjDDv4FsPATXAQzLATmFEwDVgBvFQATmAUwXu36BewHUg8+Lh8AbxAhNQA9C8HVzUyHvQoZY3KaAGzB4yGqOWEVwLyAEe0otXYyNgCHwAGXN+Ycd7s9QAAAAASUVORK5CYII=';
             updateImage(src, fileName);
+
+            // Twitter callback
+            firebase.auth().getRedirectResult().then(function (result) {
+                if (result.credential) {
+                    // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+                    // You can use these server side with your app's credentials to access the Twitter API.
+                    var token = result.credential.accessToken;
+                    var secret = result.credential.secret;
+                    // ...
+                }
+                // The signed-in user info.
+                var user = result.user;
+                console.log(result);
+            }).catch(function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // The email of the user's account used.
+                var email = error.email;
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
+                // ...
+            });
         });
     </script>
 </head>
@@ -228,18 +256,17 @@
 
         <h2 class="mt-5 h4">共有</h2>
         <p>
-            <iframe src="https://platform.twitter.com/widgets/tweet_button.html?size=l&url=https%3A%2F%2Fharu067.com%2Fsymmetric%2F&text=%E5%AF%BE%E7%A7%B0%E7%94%BB%E5%83%8F%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AC%E3%83%BC%E3%82%BF%E3%83%BC"
-                width="140" height="28" title="Twitter Tweet Button" style="border: 0; overflow: hidden;">
-            </iframe>
+            ツイートは確認なしで実行されます。ご注意ください
         </p>
-        <textarea id="tweet" class="form-control mb-2" rows="2">？？？？？？ https://haru067.com/symmetric/ #対称画像ジェネレーター</textarea>
-        <button class="btn btn-primary" onclick="copyToClipboard()">コピー</button>
-        <span id="notification" class="badge badge-success" style="visibility: hidden;">
-            コピーしました！
-        </span>
-        <p class="mt-3">
-            <a href="https://twitter.com/">twitter.com</a>
+        <button class="btn btn-primary mb-2" onclick="tweet('c1');">青枠のほうをツイート</button>
+        <button class="btn btn-danger mb-2" onclick="tweet('c2');">赤枠のほうをツイート</button>
+        <button class="btn btn-secondary mb-2" onclick="tweet();">元画像を含めて全てツイート</button>
+        <p class="mt-4">
+            宣伝用（テキストのみ）はこちら
         </p>
+        <iframe src="https://platform.twitter.com/widgets/tweet_button.html?size=l&url=https%3A%2F%2Fharu067.com%2Fsymmetric%2F&text=%E5%AF%BE%E7%A7%B0%E7%94%BB%E5%83%8F%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AC%E3%83%BC%E3%82%BF%E3%83%BC"
+            width="140" height="28" title="Twitter Tweet Button" style="border: 0; overflow: hidden;">
+        </iframe>
 
         <h2 class="mt-5 h4">FAQ</h2>
         <p>
@@ -261,6 +288,19 @@ FANALFANT
             <a href="https://twitter.com/haru067">@haru067</a>
         </p>
     </main>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-auth.js"></script>
+    <script>
+        var config = {
+            apiKey: "AIzaSyCHWLrGjZTS-eo1d-4TZDH08okXN5rnH10",
+            authDomain: "haru067-projects.firebaseapp.com",
+            databaseURL: "https://haru067-projects.firebaseio.com",
+            projectId: "haru067-projects",
+            storageBucket: "haru067-projects.appspot.com",
+            messagingSenderId: "477200304692"
+        };
+        firebase.initializeApp(config);
+    </script>
 </body>
 
 </html>
