@@ -113,6 +113,7 @@
                 slider.setAttribute('style', 'width:' + width + 'px !important;');
             };
 
+            sessionStorage.setItem('original', src);
             draw('c1', source);
             draw('c2', source, true);
         }
@@ -160,7 +161,7 @@
             });
         }
 
-        function tweet(target) {
+        function signIn(target) {
             var provider = new firebase.auth.TwitterAuthProvider();
             firebase.auth().signInWithRedirect(provider);
         }
@@ -170,7 +171,9 @@
             document.querySelector('input[type="file"]').addEventListener('change', function (e) {
                 loadImageFile(e.target.files[0]);
             });
-            var src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAG1BMVEX///8AAABy3Pf759P7p9Kw6Pb51bktq/8AWJOHqRgkAAABAUlEQVR4nO3XSwrDMAwE0CT93v/EjaEDg5BsS3E3ZWbT1Lb0DCYJ2V5B3k72Mzzf/mMu6rMJKAPInoiAGuBNcNEjEQ8TkAeyTXuYgDywqjkjAsZAS+Wmmo2AeWC2ILsRAWMgU3Cc4fUztQJqQFQIAPMC1gDe4Ah4nuFfAQL+EbAPNYwxcKP0EAF5wB7kQfGaC1gL2CYWiYAeImAOwCSaeMV2PFon4DeAl2idRQSMgTaAD0ELjDDv4FsPATXAQzLATmFEwDVgBvFQATmAUwXu36BewHUg8+Lh8AbxAhNQA9C8HVzUyHvQoZY3KaAGzB4yGqOWEVwLyAEe0otXYyNgCHwAGXN+Ycd7s9QAAAAASUVORK5CYII=';
+
+            var src = sessionStorage.getItem('original');
+            src = src ? src : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAG1BMVEX///8AAABy3Pf759P7p9Kw6Pb51bktq/8AWJOHqRgkAAABAUlEQVR4nO3XSwrDMAwE0CT93v/EjaEDg5BsS3E3ZWbT1Lb0DCYJ2V5B3k72Mzzf/mMu6rMJKAPInoiAGuBNcNEjEQ8TkAeyTXuYgDywqjkjAsZAS+Wmmo2AeWC2ILsRAWMgU3Cc4fUztQJqQFQIAPMC1gDe4Ah4nuFfAQL+EbAPNYwxcKP0EAF5wB7kQfGaC1gL2CYWiYAeImAOwCSaeMV2PFon4DeAl2idRQSMgTaAD0ELjDDv4FsPATXAQzLATmFEwDVgBvFQATmAUwXu36BewHUg8+Lh8AbxAhNQA9C8HVzUyHvQoZY3KaAGzB4yGqOWEVwLyAEe0otXYyNgCHwAGXN+Ycd7s9QAAAAASUVORK5CYII=';
             updateImage(src, fileName);
 
             // Twitter callback
@@ -184,7 +187,6 @@
                 }
                 // The signed-in user info.
                 var user = result.user;
-                console.log(result);
             }).catch(function (error) {
                 // Handle Errors here.
                 var errorCode = error.code;
@@ -230,7 +232,7 @@
             <div class="col mb-5">
                 <h2 class="h4">元画像</h2>
                 <div id="original" class="p-4 border border-secondary text-center" style="display: inline-block">
-                    <img id="original-img" class="mw-100" style="max-height: 300px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAG1BMVEX///8AAABy3Pf759P7p9Kw6Pb51bktq/8AWJOHqRgkAAABAUlEQVR4nO3XSwrDMAwE0CT93v/EjaEDg5BsS3E3ZWbT1Lb0DCYJ2V5B3k72Mzzf/mMu6rMJKAPInoiAGuBNcNEjEQ8TkAeyTXuYgDywqjkjAsZAS+Wmmo2AeWC2ILsRAWMgU3Cc4fUztQJqQFQIAPMC1gDe4Ah4nuFfAQL+EbAPNYwxcKP0EAF5wB7kQfGaC1gL2CYWiYAeImAOwCSaeMV2PFon4DeAl2idRQSMgTaAD0ELjDDv4FsPATXAQzLATmFEwDVgBvFQATmAUwXu36BewHUg8+Lh8AbxAhNQA9C8HVzUyHvQoZY3KaAGzB4yGqOWEVwLyAEe0otXYyNgCHwAGXN+Ycd7s9QAAAAASUVORK5CYII=">
+                    <img id="original-img" class="mw-100" style="max-height: 300px;">
                     <div class="mt-4">
                         <input id="range" type="range" min="0" max="100" oninput="updateCanvas()" onchange="updateCanvas()" />
                     </div>
@@ -258,9 +260,9 @@
         <p>
             ツイートは確認なしで実行されます。ご注意ください
         </p>
-        <button class="btn btn-primary mb-2" onclick="tweet('c1');">青枠のほうをツイート</button>
-        <button class="btn btn-danger mb-2" onclick="tweet('c2');">赤枠のほうをツイート</button>
-        <button class="btn btn-secondary mb-2" onclick="tweet();">元画像を含めて全てツイート</button>
+        <button class="btn btn-primary mb-2" onclick="signIn('c1');">青枠のほうをツイート</button>
+        <button class="btn btn-danger mb-2" onclick="signIn('c2');">赤枠のほうをツイート</button>
+        <button class="btn btn-secondary mb-2" onclick="signIn();">元画像を含めて全てツイート</button>
         <p class="mt-4">
             宣伝用（テキストのみ）はこちら
         </p>
