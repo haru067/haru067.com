@@ -182,7 +182,7 @@
         </form>
         <div class="row">
             <div class="col mb-5">
-                <div id="upload-area" class="p-5 h-100 d-flex justify-content-center align-items-center text-center" style="border: #6c757d 1px solid;">
+                <div id="upload-area" class="p-5 h-100 d-none d-md-flex justify-content-center align-items-center text-center" style="border: #6c757d 1px solid;">
                     <div>
                         <p>ここに画像をドラッグ</p>
                         <p>もしくは</p>
@@ -191,8 +191,13 @@
                         </button>
                     </div>
                 </div>
+                <div class="d-md-none">
+                    <button type="button" class="btn btn-outline-secondary" onclick="onUploadClick()">
+                        画像を選択
+                    </button>
+                </div>
             </div>
-            <!-- Force next columns to break to new line at md or lower breakpoint -->
+            <!-- Force break for mobiles -->
             <div class="w-100 d-md-none"></div>
             <div class="col mb-5">
                 <h2 class="h4">元画像</h2>
