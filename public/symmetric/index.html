@@ -91,18 +91,6 @@
 
         function getFileSize(dataUrl) { return toBlob(dataUrl)['size']; }
 
-        function copyToClipboard() {
-            document.getElementById('tweet').select();
-            var result = document.execCommand('copy');
-            if (result) {
-                document.getElementById('notification').style.visibility = 'visible';
-                setTimeout(function () {
-                    document.getElementById('notification').style.visibility = 'hidden';
-                }, 600);
-            }
-            return result;
-        }
-
         function updateImage(src, name) {
             // Update global variables
             source = src;
@@ -184,7 +172,7 @@
                 console.log('Compressed file size: ' + Math.floor(toBlob(dataUrl)['size'] / 1000) + 'KB');
             }
 
-            sessionStorage.setItem('target', target);
+            sessionStorage.setItem('target', dataUrl);
             var provider = new firebase.auth.TwitterAuthProvider();
             firebase.auth().signInWithRedirect(provider);
         }
@@ -192,18 +180,16 @@
         // Twitter
         function tweet(user, credential) {
             var target = sessionStorage.getItem('target');
-            console.log(target);
             console.log('tweet');
-            var body = { accessToken: credential.accessToken, secret: credential.secret, image: "hoge" }
+            var body = { accessToken: credential.accessToken, secret: credential.secret, image: target.replace(/^.*,/, '') }
             user.getIdToken(true).then(function (idToken) {
-                var url = 'http://localhost:8080/api/tweet';
-                // var url = 'https://haru067.com/api/tweet';
+                var url = 'http://localhost:8080/api/symmetric/tweet';
+                // var url = 'https://haru067.com/api/symmetric/tweet';
                 fetch(url, {
                     mode: 'cors',
                     method: 'POST',
                     headers: new Headers({
                         Authorization: 'Bearer ' + idToken,
-                        Accept: 'application/json',
                         "Content-Type": 'application/json'
                     }),
                     body: JSON.stringify(body),
@@ -236,16 +222,7 @@
                 if (result.credential) {
                     tweet(result.user, result.credential);
                 }
-            }).catch(function (error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                // The email of the user's account used.
-                var email = error.email;
-                // The firebase.auth.AuthCredential type that was used.
-                var credential = error.credential;
-                // ...
-            });
+            }).catch(function (error) { alert(error.message); });
         });
     </script>
 </head>
@@ -309,8 +286,8 @@
         <p>
             ツイートは確認なしで認証後に実行されます。ご注意ください
         </p>
-        <button class="btn btn-primary mb-2" onclick="signIn('c1');">青枠のほうをツイート</button>
-        <button class="btn btn-danger mb-2" onclick="signIn('c2');">赤枠のほうをツイート</button>
+        <button class="btn btn-primary mb-2" onclick="signIn('c1');">青枠の画像をツイート</button>
+        <button class="btn btn-danger mb-2" onclick="signIn('c2');">赤枠の画像をツイート</button>
         <button class="btn btn-secondary mb-2" onclick="signIn();">元画像を含めて全てツイート</button>
         <p class="mt-4">
             宣伝用（テキストのみ）はこちら
