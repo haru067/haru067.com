@@ -15,6 +15,7 @@
         });
     </script>
     <script>
+        var INPUT_FILE_SIZE_LIMIT = 4000000 // 4MB
         var TWEET_FILE_SIZE_LIMIT = 2000000 // 2MB
         var rate = sessionStorage.getItem('rate') || 0.5; // 50%
         var source = null;
@@ -56,7 +57,6 @@
             var ctx = canvas.getContext('2d');
             var img = new Image();
             img.src = source;
-            console.log('draw');
             img.onload = function () {
                 var w = img.width;
                 var h = img.height;
@@ -73,7 +73,6 @@
                     ctx.drawImage(img, 0, 0, w * rate, h, 0, 0, w * rate, h);
                     ctx.scale(-1, 1);
                     ctx.drawImage(img, 0, 0, w * rate, h, -w * (rate * 2), 0, w * rate, h);
-                    console.log('Rendered');
                 }
             }
         }
@@ -92,6 +91,11 @@
         function getFileSize(dataUrl) { return toBlob(dataUrl)['size']; }
 
         function updateImage(src, name) {
+            if (src.length > INPUT_FILE_SIZE_LIMIT) {
+                alert("読み込みに失敗しました: 画像が大きすぎます");
+                return;
+            }
+
             // Update global variables
             source = src;
             fileName = name;
@@ -159,20 +163,7 @@
             if (target != 'c1' && target != 'c2') {
                 target = 'all';
             }
-            // TODO validate image size
-            var canvas = document.getElementById(target);
-            var dataUrl = canvas.toDataURL('image/jpeg');
-            var rawSize = toBlob(dataUrl)['size'];
-
-            console.log('Original file size: ' + Math.floor(rawSize / 1000) + 'KB');
-            if (rawSize > TWEET_FILE_SIZE_LIMIT) {
-                var quality = TWEET_FILE_SIZE_LIMIT / rawSize;
-                console.log('Set image quality: ' + quality);
-                dataUrl = canvas.toDataURL('image/jpeg', quality);
-                console.log('Compressed file size: ' + Math.floor(toBlob(dataUrl)['size'] / 1000) + 'KB');
-            }
-
-            sessionStorage.setItem('target', dataUrl);
+            sessionStorage.setItem('target', target);
             var provider = new firebase.auth.TwitterAuthProvider();
             firebase.auth().signInWithRedirect(provider);
         }
@@ -180,8 +171,15 @@
         // Twitter
         function tweet(user, credential) {
             var target = sessionStorage.getItem('target');
-            console.log('tweet');
-            var body = { accessToken: credential.accessToken, secret: credential.secret, image: target.replace(/^.*,/, '') }
+            var canvas = document.getElementById(target);
+            if (!canvas) { return false; }
+            var dataUrl = compressImage(canvas, 'image/jpeg', 'tweet');
+            if (!dataUrl) {
+                alert("投稿に失敗しました: 画像が大きすぎます");
+                return false;
+            }
+
+            var body = { accessToken: credential.accessToken, secret: credential.secret, image: dataUrl.replace(/^.*,/, '') }
             user.getIdToken(true).then(function (idToken) {
                 var url = 'http://localhost:8080/api/symmetric/tweet';
                 // var url = 'https://haru067.com/api/symmetric/tweet';
@@ -196,15 +194,32 @@
                 }).then(function (response) {
                     return response.text();
                 }).then(function (text) {
-                    alert(text);
+                    alert("投稿しました");
                 });
-                return;
-                console.log(idToken);
             }).catch(function (error) {
-                // Handle error
+                alert('Error: ' + error.code + ' ' + error.message);
             });
-            console.log(result);
-            // ...
+
+            return true;
+        }
+
+        function compressImage(canvas, type, tag) {
+            var dataUrl = canvas.toDataURL(type);
+            var rawSize = toBlob(dataUrl)['size'];
+            tag = tag || '?'
+
+            console.log('[' + tag + ']Original file size: ' + Math.floor(rawSize / 1000) + 'KB');
+            if (rawSize > TWEET_FILE_SIZE_LIMIT) {
+                var quality = TWEET_FILE_SIZE_LIMIT / rawSize;
+                console.log('[' + tag + ']Set image quality: ' + quality);
+                dataUrl = canvas.toDataURL('image/jpeg', quality);
+                var finalSize = toBlob(dataUrl)['size'];
+                console.log('[' + tag + ']Compressed file size: ' + Math.floor(finalSize / 1000) + 'KB');
+                if (finalSize > TWEET_FILE_SIZE_LIMIT) {
+                    return null;
+                }
+            }
+            return dataUrl;
         }
 
         // Init
@@ -222,7 +237,7 @@
                 if (result.credential) {
                     tweet(result.user, result.credential);
                 }
-            }).catch(function (error) { alert(error.message); });
+            }).catch(function (error) { alert('Error: ' + error.code + ' ' + error.message); console.log('hoge'); });
         });
     </script>
 </head>
