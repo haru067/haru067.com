@@ -9,6 +9,7 @@ dateformat = "2006-01-02"
 avatar = "https://haru067.com/img/me.png"
 home = "https://haru067.com/"
 manifest = "https://haru067.com/blog/manifest.json"
+adsense = "ca-pub-6607941391098256"
 
 [[params.social]]
 url = "https://github.com/haru067"
