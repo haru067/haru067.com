@@ -192,9 +192,14 @@
                     }),
                     body: JSON.stringify(body),
                 }).then(function (response) {
+                    if (!response.ok) {
+                        throw Error(response.statusText);
+                    }
                     return response.text();
                 }).then(function (text) {
                     alert("投稿しました");
+                }).catch(function (error) {
+                    alert('Error: ' + error.code + ' ' + error.message);
                 });
             }).catch(function (error) {
                 alert('Error: ' + error.code + ' ' + error.message);
@@ -298,9 +303,10 @@
         </div>
 
         <h2 class="mt-5 h4">共有</h2>
-        <p>
-            ツイートは確認なしで認証後に実行されます。ご注意ください
-        </p>
+        <ul>
+            <li>ツイートは確認なしで認証後に実行されます。ご注意ください</li>
+            <li>画像のアップロードには認証後、数秒かかることがあります</li>
+        </ul>
         <button class="btn btn-primary mb-2" onclick="signIn('c1');">青枠の画像をツイート</button>
         <button class="btn btn-danger mb-2" onclick="signIn('c2');">赤枠の画像をツイート</button>
         <!--
