@@ -181,8 +181,7 @@
 
             var body = { accessToken: credential.accessToken, secret: credential.secret, image: dataUrl.replace(/^.*,/, '') }
             user.getIdToken(true).then(function (idToken) {
-                var url = 'http://localhost:8080/api/symmetric/tweet';
-                // var url = 'https://haru067.com/api/symmetric/tweet';
+                var url = 'https://haru067-projects.appspot.com/api/symmetric/tweet';
                 fetch(url, {
                     mode: 'cors',
                     method: 'POST',
