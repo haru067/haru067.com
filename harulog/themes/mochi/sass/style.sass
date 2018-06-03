@@ -2,7 +2,8 @@ $blue: #2077b2
 $grey-dark: #707070
 $grey-darker: #444444
 $primary: $blue
-$family-sans-serif: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "メイリオ", "Meiryo", sans-serif
+$family-sans-serif: -apple-sysem, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "メイリオ", "Meiryo", sans-serif
+$family-monospace: 'Menlo', Consolas, monospace
 $footer-background-color: transparent
 
 @import "node_modules/bulma/bulma"
@@ -17,8 +18,20 @@ html
 .section
   padding: 2.5rem 1.25rem
 
-body, .title a, span.icon
+body, span.icon
   color: $grey-darker
+
+article a
+  display: block;
+  padding: 1.25rem 0rem;
+article a:hover
+  h1.title, h2.subtitle
+    color: $blue;
+
+article:not(:first-child)
+    border-width: 1px 0px 0px 0px;
+    border-color: #eeeeee;
+    border-style: solid;
 
 aside
   margin-top: 2rem
@@ -61,3 +74,5 @@ aside
       margin-top: 0
     &:not(:last-child)
       margin-bottom: 0
+  pre, code
+    line-height: normal;
