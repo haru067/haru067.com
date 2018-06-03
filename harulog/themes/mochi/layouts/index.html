@@ -3,10 +3,10 @@
 <section class="section">
   <div class="container">
     {{ range sort .Paginator.Pages }}
-    <article class="box">
+    <article>
       <a href="{{ .Permalink }}">
         <h2 class="subtitle is-7">{{ .Lastmod.Format ( .Site.Params.dateformat | default "January 2, 2006") }}</h2>
-        <h1 class="title is-4">{{ .Title }}{{ if .Draft }} ::Draft{{ end }}</h1>
+        <h1 class="title is-5">{{ .Title }}{{ if .Draft }} ::Draft{{ end }}</h1>
       </a>
     </article>
     {{ end }}

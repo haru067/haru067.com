@@ -17,8 +17,20 @@ html
 .section
   padding: 2.5rem 1.25rem
 
-body, .title a, span.icon
+body, span.icon
   color: $grey-darker
+
+article a
+  display: block;
+  padding: 1.25rem 0rem;
+article a:hover
+  h1.title, h2.subtitle
+    color: $blue;
+
+article:not(:first-child)
+    border-width: 1px 0px 0px 0px;
+    border-color: #eeeeee;
+    border-style: solid;
 
 aside
   margin-top: 2rem
