@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html{{ with .Site.LanguageCode }} lang="{{ . }}"{{ end }}>
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ .Title }}{{ if eq .IsHome false }} | {{ .Site.Title }}{{ end }}</title>
@@ -8,3 +9,13 @@
 {{ range .Site.Params.favicon }}
 <link rel="icon" type="image/png" sizes="{{ .size }}" href="{{ .url }}">{{ end }}
 {{ if .Site.Params.manifest }}<link rel="manifest" href="{{ .Site.Params.manifest }}">{{ end }}
+{{ if .Site.Params.adsense }}
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6607941391098256",
+    enable_page_level_ads: true
+  });
+</script>
+{{ end }}
+</head>
