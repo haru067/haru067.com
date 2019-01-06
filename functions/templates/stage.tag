@@ -22,11 +22,13 @@
                 13: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F13.jpg?alt=media&token=51a672eb-3dad-4641-91eb-48c91076d8d2",
                 14: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F14.jpg?alt=media&token=6835de06-7f62-45f1-90f1-0444083c4e81",
                 15: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F15.jpg?alt=media&token=3e4c9024-00a1-4bd1-bb7e-f35cd046ad2f",
+                16: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F16.jpg?alt=media&token=9a0d5938-1512-4e7e-90cd-22099292c88e",
                 17: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F17.jpg?alt=media&token=5e121c69-ba4e-4ad8-b234-d982e2075dbe",
                 18: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F18.jpg?alt=media&token=817f07bf-8a9a-40c8-a2b9-338f401283ee",
                 19: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F19.jpg?alt=media&token=50b0c71b-2704-470c-af6d-888a51f08c3b",
                 20: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F20.jpg?alt=media&token=05004f21-5286-4c32-b32d-7e7afcc651a3",
                 21: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F21.jpg?alt=media&token=947c8386-b504-4808-96fa-29f61ecc0c28",
+                22: "https://firebasestorage.googleapis.com/v0/b/haru067-a007c.appspot.com/o/splatoon%2Fstages%2F22.jpg?alt=media&token=13b363fc-86ee-4163-89a9-c9255d0d87e2",
             }
             return map[id];
         }
