@@ -1,6 +1,9 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build-deploy:
@@ -16,10 +19,10 @@ jobs:
         hugo-version: 'latest'
         # extended: true
 
-    - name: Build
+    - name: Build blog
       run: cd harulog && hugo --minify
 
-    - name: Deploy
+    - name: Deploy to Firebase hosting
       uses: w9jds/firebase-action@master
       with:
         args: deploy --only hosting:haru067-a007c
