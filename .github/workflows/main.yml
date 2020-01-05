@@ -20,4 +20,8 @@ jobs:
       run: cd harulog && hugo --minify
 
     - name: Deploy
-      run: ls && ls harulog
+      uses: w9jds/firebase-action@master
+      with:
+        args: deploy --only hosting
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
