@@ -25,3 +25,4 @@ jobs:
         args: deploy --only hosting:haru067-a007c
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        PROJECT_ID: ${{ secrets.PROJECT_ID }}
