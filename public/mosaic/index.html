@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>画像にモザイク・ぼかし入れるツール</title>
+<style>
+  body {
+    margin: 2%;
+  }
+  #canvas-container {
+    max-width: 100%;
+    max-height: 50vh;
+  }
+
+  canvas {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 50vh;
+  }
+
+  input[type=range] {
+    width: 100%; /* スライダーの幅を100%に設定 */
+  }
+</style>
+</head>
+<body>
+  <input type="file" id="file-input">
+  <br>
+  <br>
+  <div id="canvas-container">
+    <canvas id="canvas"></canvas>
+  </div>
+	<br>
+  <br>
+	<label for="size-slider">モザイクの大きさ:</label>
+  <br>
+	<input type="range" id="size-slider" min="0" max="100" value="0">
+  <br>
+  <br>
+	<label for="size-slider">ぼかしの大きさ:</label>
+  <br>
+	<input type="range" id="size-slider2" min="0" max="100" value="0">
+  <br>
+  <br>
+  <button id="download-btn">保存する</button>
+  <script src="main.js"></script>
+</body>
+</html>
