@@ -18,9 +18,11 @@ input.addEventListener('change', () => {
     img = new Image();
     img.src = reader.result;
     img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
+      const w = Math.min(img.width, 1024);
+      const h = Math.floor(img.height * w / img.width);
+      canvas.width = w;
+      canvas.height = h;
+      ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, w, h);
       originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     };
   };
