@@ -18,7 +18,7 @@ input.addEventListener('change', () => {
     img = new Image();
     img.src = reader.result;
     img.onload = () => {
-      const w = Math.min(img.width, 1024);
+      const w = Math.min(img.width, 512);
       const h = Math.floor(img.height * w / img.width);
       canvas.width = w;
       canvas.height = h;
