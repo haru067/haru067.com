@@ -1,0 +1,11 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.haru067.warikan",
+        "sha256_cert_fingerprints":
+          ["39:92:C3:35:8E:AF:5E:86:38:DC:C1:30:C7:63:00:BC:EF:99:03:41:70:55:F6:26:C2:E1:40:B1:E3:F7:47:6B"]
+      }
+    }
+  ]
